@@ -103,6 +103,8 @@ VAR = "var"
 CONST = "const"
 IF = "if"
 ELSE = "else"
+MATCH = "match"
+DEFAULT_MATCH = "_"
 
 %%
 // Simbolos estructurales
@@ -125,6 +127,8 @@ ELSE = "else"
 <YYINITIAL> {CONST}                 {return new Symbol(sym.CONST, yyline, yycolumn, yytext());}
 <YYINITIAL> {IF}                    {return new Symbol(sym.IF, yyline, yycolumn, yytext());}
 <YYINITIAL> {ELSE}                  {return new Symbol(sym.ELSE, yyline, yycolumn, yytext());}
+<YYINITIAL> {MATCH}                 {return new Symbol(sym.MATCH, yyline, yycolumn, yytext());}
+<YYINITIAL> {DEFAULT_MATCH}         {return new Symbol(sym.DEFAULT_MATCH, yyline, yycolumn, yytext());}
 
 
 // Expresiones regulares

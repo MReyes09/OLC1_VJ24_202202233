@@ -8,52 +8,54 @@ package analisis;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int DOSPUNTOS = 45;
-  public static final int PAR2 = 29;
-  public static final int PAR1 = 28;
+  public static final int DOSPUNTOS = 47;
+  public static final int PAR2 = 30;
+  public static final int PAR1 = 29;
   public static final int TYPE_BOOLEAN = 15;
-  public static final int COR2 = 31;
-  public static final int MULT = 22;
-  public static final int COR1 = 30;
+  public static final int COR2 = 32;
+  public static final int MULT = 23;
+  public static final int COR1 = 31;
   public static final int TYPE_DOUBLE = 12;
   public static final int CONST = 16;
   public static final int CHAR = 5;
   public static final int IMPRIMIR = 10;
   public static final int ENTERO = 3;
-  public static final int XOR = 42;
+  public static final int XOR = 44;
   public static final int ID_VARIABLE = 6;
-  public static final int NOT = 43;
-  public static final int AND = 41;
+  public static final int MATCH = 20;
+  public static final int NOT = 45;
+  public static final int AND = 43;
   public static final int FINCADENA = 9;
-  public static final int IGUAL = 33;
-  public static final int OR = 40;
-  public static final int DIV = 23;
-  public static final int INCREMENTO = 26;
+  public static final int IGUAL = 35;
+  public static final int OR = 42;
+  public static final int DIV = 24;
+  public static final int INCREMENTO = 27;
   public static final int TYPE_INT = 11;
   public static final int IF = 18;
-  public static final int UMENOS = 32;
-  public static final int IGUAL_IGUAL = 34;
+  public static final int UMENOS = 34;
+  public static final int IGUAL_IGUAL = 36;
   public static final int EOF = 0;
   public static final int DECIMAL = 4;
   public static final int TRUE = 7;
-  public static final int DECREMENTO = 27;
+  public static final int DECREMENTO = 28;
   public static final int error = 1;
   public static final int CADENA = 2;
-  public static final int MODULO = 25;
-  public static final int MENOS = 21;
-  public static final int MAYOR_QUE = 38;
+  public static final int DEFAULT_MATCH = 33;
+  public static final int MODULO = 26;
+  public static final int MENOS = 22;
+  public static final int MAYOR_QUE = 40;
   public static final int TYPE_CHAR = 13;
-  public static final int POTENCIA = 24;
-  public static final int FLECHA = 44;
-  public static final int DIFERENTE_DE = 35;
+  public static final int POTENCIA = 25;
+  public static final int FLECHA = 46;
+  public static final int DIFERENTE_DE = 37;
   public static final int ELSE = 19;
   public static final int TYPE_STRING = 14;
-  public static final int MAYOR_IGUAL = 39;
-  public static final int MENOR_QUE = 36;
-  public static final int MENOR_IGUAL = 37;
+  public static final int MAYOR_IGUAL = 41;
+  public static final int MENOR_QUE = 38;
+  public static final int MENOR_IGUAL = 39;
   public static final int FALSE = 8;
   public static final int VAR = 17;
-  public static final int MAS = 20;
+  public static final int MAS = 21;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -75,6 +77,7 @@ public class sym {
   "VAR",
   "IF",
   "ELSE",
+  "MATCH",
   "MAS",
   "MENOS",
   "MULT",
@@ -87,6 +90,7 @@ public class sym {
   "PAR2",
   "COR1",
   "COR2",
+  "DEFAULT_MATCH",
   "UMENOS",
   "IGUAL",
   "IGUAL_IGUAL",

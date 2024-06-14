@@ -14,6 +14,8 @@ import instrucciones.Declaracion;
 import instrucciones.AsignacionVar;
 import instrucciones.sentencias_Control.If;
 import instrucciones.sentencias_Control.IF_ELSE_IF;
+import instrucciones.sentencias_Control.Match;
+import instrucciones.sentencias_Control.Cases_Match;
 
 //expresiones
 import expresiones.Nativo;
@@ -59,9 +61,9 @@ action code
 
 terminal String CADENA, ENTERO, DECIMAL, CHAR, ID_VARIABLE;
 terminal String TRUE, FALSE;
-terminal FINCADENA, IMPRIMIR, TYPE_INT, TYPE_DOUBLE, TYPE_CHAR, TYPE_STRING, TYPE_BOOLEAN, CONST, VAR, IF, ELSE;
+terminal FINCADENA, IMPRIMIR, TYPE_INT, TYPE_DOUBLE, TYPE_CHAR, TYPE_STRING, TYPE_BOOLEAN, CONST, VAR, IF, ELSE, MATCH;
 terminal MAS, MENOS, MULT, DIV, POTENCIA, MODULO, INCREMENTO, DECREMENTO;
-terminal PAR1, PAR2, COR1, COR2;
+terminal PAR1, PAR2, COR1, COR2, DEFAULT_MATCH;
 terminal UMENOS;
 
 terminal IGUAL, IGUAL_IGUAL, DIFERENTE_DE, MENOR_QUE, MENOR_IGUAL, MAYOR_QUE, MAYOR_IGUAL;
@@ -70,9 +72,11 @@ terminal DOSPUNTOS;
 
 //no terminales
 nonterminal LinkedList<Instruccion> INICIO, INSTRUCCIONES;
+nonterminal LinkedList<Cases_Match> CASES;
+nonterminal Cases_Match CASE;
 nonterminal Instruccion INSTRUCCION;
 nonterminal Instruccion IMPRESION, DECLARACION, ASIGNACION;
-nonterminal Instruccion SIF;
+nonterminal Instruccion SIF, SMATCH;
 nonterminal Tipo TIPOS;
 nonterminal Boolean MUTABILIDAD;
 nonterminal Instruccion EXPRESION;
@@ -102,7 +106,9 @@ INSTRUCCION ::= IMPRESION:a                             {: RESULT = a; :}
             | DECLARACION:a                             {: RESULT = a; :}
             | ASIGNACION:a                              {: RESULT = a; :}
             | SIF:a                                     {: RESULT = a; :}
-            | error FINCADENA                         
+            | SMATCH:a                                  {: RESULT = a; :}
+            | error FINCADENA
+            | error
 ;
 
 IMPRESION ::= IMPRIMIR PAR1 EXPRESION:a PAR2 FINCADENA      {: RESULT = new Print(a, aleft, aright); :}
@@ -131,6 +137,17 @@ TIPOS ::= TYPE_INT          {: RESULT = new Tipo(tipoDato.ENTERO); :}
 SIF ::= IF PAR1 EXPRESION:a PAR2 COR1 INSTRUCCIONES:b COR2                                      {: RESULT = new If(a, b, aleft, aright);   :}
     |   IF PAR1 EXPRESION:a PAR2 COR1 INSTRUCCIONES:b COR2 ELSE COR1 INSTRUCCIONES:c COR2       {: RESULT = new If(a, b, c,  aleft, aright);   :}
     |   IF PAR1 EXPRESION:a PAR2 COR1 INSTRUCCIONES:b COR2 ELSE SIF:c                           {: RESULT = new IF_ELSE_IF(a, b, c, aleft, aright); :}
+;
+
+SMATCH ::= MATCH EXPRESION:a COR1 CASES:b COR2                      {: RESULT = new Match(a, b, aleft, aright); :}
+;
+
+CASES ::= CASES:a CASE:b            {: RESULT = a; RESULT.add(b); :}
+        | CASE:a                    {: RESULT = new LinkedList<>(); RESULT.add(a); :}
+;
+
+CASE ::= EXPRESION:a FLECHA COR1 INSTRUCCIONES:b COR2           {: RESULT = new Cases_Match(a, b, true, aleft, aright); :}
+        | DEFAULT_MATCH FLECHA COR1 INSTRUCCIONES:a COR2        {: RESULT = new Cases_Match(null, a, false, aleft, aright); :}
 ;
 
 //public Relacionales(Instruccion operador1, Instruccion operador2, OperadoresRelacionales operacion, Tipo tipo, int linea, int columna) {
