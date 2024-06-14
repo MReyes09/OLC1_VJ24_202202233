@@ -58,7 +58,7 @@ action code
 
 terminal String CADENA, ENTERO, DECIMAL, CHAR, ID_VARIABLE;
 terminal String TRUE, FALSE;
-terminal FINCADENA, IMPRIMIR, TYPE_INT, TYPE_DOUBLE, TYPE_CHAR, TYPE_STRING, TYPE_BOOLEAN, CONST, VAR, IF;
+terminal FINCADENA, IMPRIMIR, TYPE_INT, TYPE_DOUBLE, TYPE_CHAR, TYPE_STRING, TYPE_BOOLEAN, CONST, VAR, IF, ELSE;
 terminal MAS, MENOS, MULT, DIV, POTENCIA, MODULO, INCREMENTO, DECREMENTO;
 terminal PAR1, PAR2, COR1, COR2;
 terminal UMENOS;
@@ -127,7 +127,8 @@ TIPOS ::= TYPE_INT          {: RESULT = new Tipo(tipoDato.ENTERO); :}
         | TYPE_BOOLEAN      {: RESULT = new Tipo(tipoDato.BOOLEANO); :}
 ;
 
-SIF ::= IF PAR1 EXPRESION:a PAR2 COR1 INSTRUCCIONES:b COR2  {:   RESULT = new If(a, b, aleft, aright);   :}
+SIF ::= IF PAR1 EXPRESION:a PAR2 COR1 INSTRUCCIONES:b COR2                                      {:   RESULT = new If(a, b, aleft, aright);   :}
+    |   IF PAR1 EXPRESION:a PAR2 COR1 INSTRUCCIONES:b COR2 ELSE COR1 INSTRUCCIONES:c COR2       {:   RESULT = new If(a, b, c,  aleft, aright);   :}
 ;
 
 //public Relacionales(Instruccion operador1, Instruccion operador2, OperadoresRelacionales operacion, Tipo tipo, int linea, int columna) {

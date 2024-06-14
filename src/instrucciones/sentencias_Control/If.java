@@ -13,11 +13,19 @@ public class If extends Instruccion{
 
     private Instruccion condicion;
     private LinkedList<Instruccion> instrucciones;
+    private LinkedList<Instruccion> instrucciones_Else;
 
     public If(Instruccion condicion, LinkedList<Instruccion> instrucciones, int linea, int col) {
         super(new Tipo(tipoDato.VOID), linea, col);
         this.condicion = condicion;
         this.instrucciones = instrucciones;
+    }
+
+    public If(Instruccion condicion, LinkedList<Instruccion> instrucciones, LinkedList<Instruccion> instrucciones_Else, int linea, int columna) {
+        super(new Tipo(tipoDato.VOID), linea, columna);
+        this.condicion = condicion;
+        this.instrucciones = instrucciones;
+        this.instrucciones_Else = instrucciones_Else;
     }
 
     @Override
@@ -40,6 +48,12 @@ public class If extends Instruccion{
                 /*
                     Manejo de errores
                 */
+            }
+        } else {
+            if(this.instrucciones_Else != null){
+                for(var instruccion : this.instrucciones_Else) {
+                    var resultado = instruccion.interpretar(arbol, tabla);
+                }
             }
         }
         return null;
