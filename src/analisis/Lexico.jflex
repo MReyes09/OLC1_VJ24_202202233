@@ -101,6 +101,7 @@ STRING = "string"
 BOOLEAN = "bool"
 VAR = "var"
 CONST = "const"
+IF = "if"
 
 %%
 // Simbolos estructurales
@@ -121,6 +122,7 @@ CONST = "const"
 <YYINITIAL> {BOOLEAN}               {return new Symbol(sym.TYPE_BOOLEAN, yyline, yycolumn, yytext());}
 <YYINITIAL> {VAR}                   {return new Symbol(sym.VAR, yyline, yycolumn, yytext());}
 <YYINITIAL> {CONST}                 {return new Symbol(sym.CONST, yyline, yycolumn, yytext());}
+<YYINITIAL> {IF}                    {return new Symbol(sym.IF, yyline, yycolumn, yytext());}
 
 
 // Expresiones regulares

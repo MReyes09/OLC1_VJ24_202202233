@@ -62,7 +62,7 @@ public class AsignacionVar extends Instruccion{
                             case DECIMAL -> {
                                 double valor = (double)variable.getValor();
                                 valor++;
-                                variable.setValor(valor+1);
+                                variable.setValor(valor);
                             }
                             default -> {
                                 String descripcion = "Incremento incorrecto para: \'"+ id + "\' tiene tipo: " + variable.getTipo().getTipo();
