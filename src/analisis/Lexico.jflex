@@ -86,7 +86,7 @@ FLECHA = "=>"
 BLANCOS = [\ \r\t\n\f]+
 ENTERO = [0-9]+
 DECIMAL = [0-9]+"."[0-9]+
-COMENTARIOS = (\/\/[^\n]*|\/\*[^*]*\*\/)
+COMENTARIOS = (\/\/[^\n]*|\/\*[^.]*\*\/)
 CHAR = \'[^\']\'
 ID = [a-zA-Z][a-zA-Z0-9_]*
 DEFAULT_MATCH = "_"
