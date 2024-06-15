@@ -3,6 +3,7 @@ package instrucciones.sentencias_Ciclicas;
 
 import abstracto.Instruccion;
 import excepciones.Errores;
+import instrucciones.Declaracion;
 import instrucciones.sentencias_Transferencia.Break;
 import instrucciones.sentencias_Transferencia.Continue;
 import java.util.LinkedList;
@@ -17,6 +18,7 @@ public class For extends Instruccion{
     private Instruccion condicion;
     private Instruccion actualizacion;
     private LinkedList<Instruccion> instrucciones;
+    private static int conteo = 0;
 
     public For(Instruccion asignacion, Instruccion condicion, Instruccion actualizacion, LinkedList<Instruccion> instrucciones, int linea, int col) {
         super(new Tipo(tipoDato.VOID), linea, col);
@@ -29,8 +31,9 @@ public class For extends Instruccion{
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
         //creamos un nuevo entorno
+        conteo++;
         var newTabla = new tablaSimbolos(tabla);
-
+        newTabla.setNombre("For_" + conteo);
         // asignacion/declaracion
         var res1 = this.asignacion.interpretar(arbol, newTabla);
         if (res1 instanceof Errores) {
@@ -54,6 +57,9 @@ public class For extends Instruccion{
 
             //ejecutar instrucciones
             for (var i : this.instrucciones) {
+                if(i instanceof Declaracion){
+                    ((Declaracion) i).setBloque(newTabla.getNombre());
+                }
                 if (i == null) {
                     return null;
                 }

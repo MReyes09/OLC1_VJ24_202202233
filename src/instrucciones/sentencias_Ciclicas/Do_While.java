@@ -3,6 +3,7 @@ package instrucciones.sentencias_Ciclicas;
 
 import abstracto.Instruccion;
 import excepciones.Errores;
+import instrucciones.Declaracion;
 import instrucciones.sentencias_Transferencia.Break;
 import instrucciones.sentencias_Transferencia.Continue;
 import java.util.LinkedList;
@@ -15,6 +16,7 @@ public class Do_While extends Instruccion{
     
     private Instruccion condicion;
     private LinkedList<Instruccion> instrucciones;
+    private static int conteo = 0;
 
     public Do_While(Instruccion condicion, LinkedList<Instruccion> instrucciones, int linea, int columna) {
         super(new Tipo(tipoDato.VOID), linea, columna);
@@ -24,9 +26,9 @@ public class Do_While extends Instruccion{
 
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
-        
+        conteo++;
         var newTabla = new tablaSimbolos(tabla);
-        
+        newTabla.setNombre("Do_while_" + conteo);
         // PROBAMOS SI LA CONDICION ES VERDADERA O FALSA
         var cond = this.condicion.interpretar(arbol, tabla);
         if( cond instanceof Errores ) {
@@ -45,6 +47,9 @@ public class Do_While extends Instruccion{
 
             //ejecutar instrucciones
             for (var i : this.instrucciones) {
+                if(i instanceof Declaracion){
+                    ((Declaracion) i).setBloque(newTabla.getNombre());
+                }
                 if (i == null) {
                     return null;
                 }

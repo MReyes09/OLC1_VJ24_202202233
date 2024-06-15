@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import simbolo.Arbol;
 import simbolo.tablaSimbolos;
+import simbolo.Simbolo;
 
 public class Ventana_Base extends javax.swing.JFrame {
     
@@ -26,6 +27,7 @@ public class Ventana_Base extends javax.swing.JFrame {
     private Work_Table actual_WorkSpace;
     private int number_Work_Table;
     private LinkedList<Errores> lista = new LinkedList<>();
+    public static LinkedList<Simbolo> tabla_Simbolos = new LinkedList<Simbolo>();
 
     public Ventana_Base() {
         initComponents();
@@ -164,7 +166,7 @@ public class Ventana_Base extends javax.swing.JFrame {
                 .addComponent(btn_Ejecutar, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_Reportes, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(168, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -178,15 +180,15 @@ public class Ventana_Base extends javax.swing.JFrame {
         panel_Base.setLayout(panel_BaseLayout);
         panel_BaseLayout.setHorizontalGroup(
             panel_BaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_BaseLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(panel_BaseLayout.createSequentialGroup()
+                .addGap(87, 87, 87)
                 .addGroup(panel_BaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(panel_BaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 608, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(panel_BaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 608, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(panel_BaseLayout.createSequentialGroup()
                                 .addComponent(btn_Tab1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -194,11 +196,9 @@ public class Ventana_Base extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btn_Tab3, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btn_Tab4, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(34, 34, 34))
-            .addGroup(panel_BaseLayout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(btn_Tab4, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(90, Short.MAX_VALUE))
         );
         panel_BaseLayout.setVerticalGroup(
             panel_BaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -206,7 +206,7 @@ public class Ventana_Base extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(49, 49, 49)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panel_BaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_Tab1)
                     .addComponent(btn_Tab2)
@@ -214,11 +214,11 @@ public class Ventana_Base extends javax.swing.JFrame {
                     .addComponent(btn_Tab4))
                 .addGap(27, 27, 27)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47))
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -289,6 +289,7 @@ public class Ventana_Base extends javax.swing.JFrame {
             var tabla = new tablaSimbolos();
             tabla.setNombre("Global");
             ast.setConsola("");
+            tabla_Simbolos.removeAll(tabla_Simbolos);
             lista.removeAll(lista);
             lista.addAll(s.listaErrores);
             lista.addAll(p.listaErrores);
@@ -310,7 +311,7 @@ public class Ventana_Base extends javax.swing.JFrame {
                 String error = "Error tipo: " + ((Errores) res).getTipo() + " " + ((Errores) res).getDescripcion()
                         + " fila: " +((Errores) res).getLinea()+ " columna: "+ ((Errores) res).getColumna();
                 txt_Con.setText(txt_Con.getText() + "\n" + error);
-            }
+            }            
             
         }catch(Exception ex){
             System.out.println("Algo salio mal");
@@ -319,14 +320,86 @@ public class Ventana_Base extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_EjecutarActionPerformed
 
     private void btn_ReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ReportesActionPerformed
+        this.reportes_Errores();
+        this.reporte_Simbolos();
+    }//GEN-LAST:event_btn_ReportesActionPerformed
+    
+    private void reporte_Simbolos() {
+        StringBuilder html_Report = new StringBuilder();
+        html_Report.append("<html>");
+        html_Report.append("<head>");
+        html_Report.append("<title>Tabla de Símbolos</title>");
+        html_Report.append("<style>");
+        html_Report.append("body { font-family: Arial, sans-serif; text-align: center; }");
+        html_Report.append("table { margin: 0 auto; border-collapse: collapse; width: 80%; }");
+        html_Report.append("th, td { border: 1px solid black; padding: 8px; }");
+        html_Report.append("th { background-color: #f2f2f2; }");
+        html_Report.append("tr:nth-child(even) { background-color: #f9f9f9; }");
+        html_Report.append("</style>");
+        html_Report.append("</head>");
+        html_Report.append("<body>");
+        html_Report.append("<h1>Tabla de Símbolos</h1>");
+        html_Report.append("<table>");
+        html_Report.append("<tr>");
+        html_Report.append("<th>Número</th>");
+        html_Report.append("<th>ID</th>");
+        html_Report.append("<th>Tipo</th>");
+        html_Report.append("<th>Entorno</th>");
+        html_Report.append("<th>Tipo de Dato</th>");
+        html_Report.append("<th>Valor</th>");
+        html_Report.append("<th>Fila</th>");
+        html_Report.append("<th>Columna</th>");
+        html_Report.append("</tr>");
+
+        int contador = 1;
+
+        for (var simbol : tabla_Simbolos) {
+
+            // Agregar una fila a la tabla con los valores del símbolo
+            html_Report.append("<tr>");
+            html_Report.append("<td>").append(contador).append("</td>");
+            html_Report.append("<td>").append(simbol.getId()).append("</td>");
+            html_Report.append("<td>").append(simbol.getTip()).append("</td>");
+            html_Report.append("<td>").append(simbol.getEntorno()).append("</td>");
+            html_Report.append("<td>").append(simbol.getTipo().getTipo().toString()).append("</td>");
+            html_Report.append("<td>").append(simbol.getValor()).append("</td>");
+            html_Report.append("<td>").append(simbol.getFila()).append("</td>");
+            html_Report.append("<td>").append(simbol.getColumna()).append("</td>");
+            html_Report.append("</tr>");
+
+            contador++;
+        }
+
+        html_Report.append("</table>");
+        html_Report.append("</body>");
+        html_Report.append("</html>");
+
+        String rutaArchivo = "C:\\Users\\matth\\Downloads\\Reporte_Simbolos.html";
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(rutaArchivo))) {
+            writer.write(html_Report.toString());
+            JOptionPane.showMessageDialog(null, "Reporte de símbolos generado con éxito en: " + rutaArchivo);
+        } catch (IOException e) {
+            System.out.println("Error al guardar la tabla de símbolos en el archivo: " + e.getMessage());
+        }
+    }
+
+    
+    private void reportes_Errores(){
         StringBuilder html_Report = new StringBuilder();
         html_Report.append("<html>");
         html_Report.append("<head>");
         html_Report.append("<title>Tabla de Errores</title>");
+        html_Report.append("<style>");
+        html_Report.append("body { font-family: Arial, sans-serif; text-align: center; }");
+        html_Report.append("table { margin: 0 auto; border-collapse: collapse; width: 80%; }");
+        html_Report.append("th, td { border: 1px solid black; padding: 8px; }");
+        html_Report.append("th { background-color: #f2f2f2; }");
+        html_Report.append("tr:nth-child(even) { background-color: #f9f9f9; }");
+        html_Report.append("</style>");
         html_Report.append("</head>");
         html_Report.append("<body>");
         html_Report.append("<h1>Tabla de Errores</h1>");
-        html_Report.append("<table border=\"1.5\">");
+        html_Report.append("<table>");
         html_Report.append("<tr>");
         html_Report.append("<th>Número</th>");
         html_Report.append("<th>Tipo</th>");
@@ -334,13 +407,12 @@ public class Ventana_Base extends javax.swing.JFrame {
         html_Report.append("<th>Línea</th>");
         html_Report.append("<th>Columna</th>");
         html_Report.append("</tr>");
-        
+
         int contador = 1;
-        
+
         for (Object obj : lista) {
             // Verificar si el objeto es una instancia de Token
             if (obj instanceof Errores) {
-               
                 Errores error = (Errores) obj;
                 String tipo = error.getTipo();
                 String descripcion = error.getDescripcion();
@@ -355,27 +427,24 @@ public class Ventana_Base extends javax.swing.JFrame {
                 html_Report.append("<td>").append(linea).append("</td>");
                 html_Report.append("<td>").append(columna).append("</td>");
                 html_Report.append("</tr>");
-                
+
                 contador++;
             }
         }
-        
+
         html_Report.append("</table>");
         html_Report.append("</body>");
         html_Report.append("</html>");
-        
+
         String rutaArchivo = "C:\\Users\\matth\\Downloads\\Reporte_Errores.html";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(rutaArchivo))) {
-            
             writer.write(html_Report.toString());
             JOptionPane.showMessageDialog(null, "Reporte de errores generado con éxito en: " + rutaArchivo);
-            
         } catch (IOException e) {
             System.out.println("Error al guardar la tabla de Errores en el archivo: " + e.getMessage());
         }
-        
-    }//GEN-LAST:event_btn_ReportesActionPerformed
-      
+    }
+    
     private void set_Data_Table(Work_Table workSpace, int position) {
         txtA_Entrada.setEditable(true);
         Work_Table workSpace_Update = new Work_Table(workSpace.getPath(), txt_Con.getText(), txtA_Entrada.getText());

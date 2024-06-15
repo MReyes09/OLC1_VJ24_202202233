@@ -3,6 +3,7 @@ package instrucciones.sentencias_Control;
 
 import abstracto.Instruccion;
 import excepciones.Errores;
+import instrucciones.Declaracion;
 import instrucciones.sentencias_Transferencia.Break;
 import instrucciones.sentencias_Transferencia.Continue;
 import java.util.LinkedList;
@@ -16,6 +17,7 @@ public class IF_ELSE_IF extends Instruccion{
     private Instruccion condicion;
     private LinkedList<Instruccion> instrucciones;
     private Instruccion instruccion_IF;
+    private static int conteo = 0;
 
     public IF_ELSE_IF(Instruccion condicion, LinkedList<Instruccion> instrucciones, Instruccion instrucciones_IF, int linea, int columna) {
         super(new Tipo(tipoDato.VOID), linea, columna);
@@ -26,7 +28,7 @@ public class IF_ELSE_IF extends Instruccion{
 
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
-        
+        conteo++;
         var cond = this.condicion.interpretar(arbol, tabla);
         if (cond instanceof Errores) {
             return cond;
@@ -39,8 +41,12 @@ public class IF_ELSE_IF extends Instruccion{
         }
 
         var newTabla = new tablaSimbolos(tabla);
+        newTabla.setNombre("ELSE_If_" + conteo);
         if ((boolean) cond) {
             for (var i : this.instrucciones) {
+                if(i instanceof Declaracion){
+                    ((Declaracion) i).setBloque(newTabla.getNombre());
+                }
                 if(i == null){
                     return null;
                 }

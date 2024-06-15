@@ -10,12 +10,14 @@ import simbolo.Arbol;
 import simbolo.Tipo;
 import simbolo.tablaSimbolos;
 import simbolo.tipoDato;
+import instrucciones.Declaracion;
 
 public class If extends Instruccion{
 
     private Instruccion condicion;
     private LinkedList<Instruccion> instrucciones;
     private LinkedList<Instruccion> instrucciones_Else;
+    private static int conteo = 0;
 
     public If(Instruccion condicion, LinkedList<Instruccion> instrucciones, int linea, int col) {
         super(new Tipo(tipoDato.VOID), linea, col);
@@ -32,6 +34,7 @@ public class If extends Instruccion{
 
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
+        conteo++;
         var cond = this.condicion.interpretar(arbol, tabla);
         if (cond instanceof Errores) {
             return cond;
@@ -44,8 +47,12 @@ public class If extends Instruccion{
         }
 
         var newTabla = new tablaSimbolos(tabla);
+        newTabla.setNombre("If_" + conteo);
         if ((boolean) cond) {
             for (var i : this.instrucciones) {
+                if(i instanceof Declaracion){
+                    ((Declaracion) i).setBloque(newTabla.getNombre());
+                }
                 if(i == null){
                     return null;
                 }
@@ -56,9 +63,6 @@ public class If extends Instruccion{
                     return i;
                 }
                 var resultado = i.interpretar(arbol, newTabla);
-                if(resultado == null){
-                    return null;
-                }
                 if (resultado instanceof Break) {
                     return resultado;
                 }
@@ -73,6 +77,9 @@ public class If extends Instruccion{
         } else {
             if(this.instrucciones_Else != null){
                 for(var instruccion : this.instrucciones_Else) {
+                    if(instruccion instanceof Declaracion){
+                        ((Declaracion) instruccion).setBloque(newTabla.getNombre());
+                    }
                     if (instruccion instanceof Break) {
                         return instruccion;
                     }
@@ -92,6 +99,7 @@ public class If extends Instruccion{
                 }
             }
         }
+        conteo = 0;
         return null;
     }
     
