@@ -47,13 +47,19 @@ public class While extends Instruccion{
                     return null;
                 }
                 
+                if (i instanceof Continue){
+                    break;
+                }
+                
                 var resIns = i.interpretar(arbol, newTabla2);
                 if (resIns instanceof Break) {
                     return null;
                 }
-                
                 if (resIns instanceof Errores) {
                     return resIns;
+                }
+                if (resIns instanceof Continue){
+                    break;
                 }
             }
         }

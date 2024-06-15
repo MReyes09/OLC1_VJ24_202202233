@@ -55,19 +55,22 @@ public class For extends Instruccion{
             //ejecutar instrucciones
             for (var i : this.instrucciones) {
                 if (i instanceof Break) {
-                    return i;
+                    return null;
                 }
                 
                 if (i instanceof Continue){
-                    continue;
+                    break;
                 }
                 
                 var resIns = i.interpretar(arbol, newTabla2);
                 if (resIns instanceof Break) {
-                    return i;
+                    return null;
                 }
                 if (resIns instanceof Errores) {
                     return resIns;
+                }
+                if (resIns instanceof Continue){
+                    break;
                 }
             }
             
