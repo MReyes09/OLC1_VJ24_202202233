@@ -307,7 +307,8 @@ public class Ventana_Base extends javax.swing.JFrame {
             txt_Con.setText(ast.getConsola()+ "\n");
 
             for (var res : lista) {
-                String error = "Error tipo: " + ((Errores) res).getTipo() + " " + ((Errores) res).getDescripcion();
+                String error = "Error tipo: " + ((Errores) res).getTipo() + " " + ((Errores) res).getDescripcion()
+                        + " fila: " +((Errores) res).getLinea()+ " columna: "+ ((Errores) res).getColumna();
                 txt_Con.setText(txt_Con.getText() + "\n" + error);
             }
             

@@ -46,6 +46,9 @@ public class If extends Instruccion{
         var newTabla = new tablaSimbolos(tabla);
         if ((boolean) cond) {
             for (var i : this.instrucciones) {
+                if(i == null){
+                    return null;
+                }
                 if (i instanceof Continue) {
                     return i;
                 }
@@ -53,11 +56,14 @@ public class If extends Instruccion{
                     return i;
                 }
                 var resultado = i.interpretar(arbol, newTabla);
+                if(resultado == null){
+                    return null;
+                }
                 if (resultado instanceof Break) {
                     return resultado;
                 }
-                if (i instanceof Continue) {
-                    return i;
+                if (resultado instanceof Continue) {
+                    return resultado;
                 }
                 if (resultado instanceof Errores) {
                     return resultado;

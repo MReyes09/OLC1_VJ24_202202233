@@ -45,7 +45,9 @@ public class Do_While extends Instruccion{
 
             //ejecutar instrucciones
             for (var i : this.instrucciones) {
-                
+                if (i == null) {
+                    return null;
+                }
                 if (i instanceof Break) {
                     return null;
                 }

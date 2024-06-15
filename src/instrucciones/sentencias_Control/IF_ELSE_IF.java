@@ -41,6 +41,9 @@ public class IF_ELSE_IF extends Instruccion{
         var newTabla = new tablaSimbolos(tabla);
         if ((boolean) cond) {
             for (var i : this.instrucciones) {
+                if(i == null){
+                    return null;
+                }
                 if (i instanceof Continue) {
                     return i;
                 }

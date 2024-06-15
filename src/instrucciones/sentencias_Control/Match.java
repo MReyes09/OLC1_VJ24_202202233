@@ -48,6 +48,9 @@ public class Match extends Instruccion{
     public Object validar(Cases_Match caso, Arbol arbol, tablaSimbolos tabla) {
         
         for(var instruccion : caso.getInstrucciones()){
+            if(instruccion == null) {
+                return null;
+            }
             var result = instruccion.interpretar(arbol, tabla);
             if(result instanceof Errores){
                 return result;
