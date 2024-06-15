@@ -3,6 +3,8 @@ package instrucciones.sentencias_Control;
 
 import abstracto.Instruccion;
 import excepciones.Errores;
+import instrucciones.sentencias_Transferencia.Break;
+import instrucciones.sentencias_Transferencia.Continue;
 import java.util.LinkedList;
 import simbolo.Arbol;
 import simbolo.Tipo;
@@ -39,14 +41,37 @@ public class IF_ELSE_IF extends Instruccion{
         var newTabla = new tablaSimbolos(tabla);
         if ((boolean) cond) {
             for (var i : this.instrucciones) {
+                if (i instanceof Continue) {
+                    return i;
+                }
+                if (i instanceof Break) {
+                    return i;
+                }
+                
                 var resultado = i.interpretar(arbol, newTabla);
-                /*
-                    Manejo de errores
-                */
+                if (resultado instanceof Break) {
+                    return resultado;
+                }
+                if (resultado instanceof Errores) {
+                    return resultado;
+                }
+                if (resultado instanceof Continue) {
+                    return resultado;
+                }
             }
         }else{
             if(this.instruccion_IF != null){
                 var resultado = this.instruccion_IF.interpretar(arbol, tabla);
+                
+                if (resultado instanceof Errores) {
+                    return resultado;
+                }
+                if (resultado instanceof Break) {
+                    return resultado;
+                }
+                if (resultado instanceof Continue) {
+                    return resultado;
+                }
             }
         }
         

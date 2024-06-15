@@ -293,8 +293,6 @@ public class Ventana_Base extends javax.swing.JFrame {
             lista.addAll(s.listaErrores);
             lista.addAll(p.listaErrores);
             
-            String sol_Final = "";
-            
             for(var a: ast.getInstrucciones()){
                 
                 if(a == null) {
@@ -304,18 +302,8 @@ public class Ventana_Base extends javax.swing.JFrame {
                 var res = a.interpretar(ast, tabla);
                 if (res instanceof Errores){
                     lista.add((Errores) res);
-//                    String error = "Error tipo: " + ((Errores) res).getTipo() + " " + ((Errores) res).getDescripcion();
-//                    sol_Final += error + "\n";
                 }
             }
-            
-//            if((sol_Final.equals(""))){
-//                txt_Con.setText(ast.getConsola());
-//            }else{
-//                sol_Final = sol_Final + ast.getConsola();
-//                txt_Con.setText(sol_Final);
-//            }
-            
             txt_Con.setText(ast.getConsola()+ "\n");
 
             for (var res : lista) {

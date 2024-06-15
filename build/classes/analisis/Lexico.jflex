@@ -49,8 +49,8 @@ import excepciones.Errores;
 //ESTRUCTURALES
 PAR1 = "("
 PAR2 = ")"
-COR1 = "{"
-COR2 = "}"
+LLAV1 = "{"
+LLAV2 = "}"
 
 FINCADENA = ";"
 DOSPUNTOS = ":"
@@ -89,6 +89,7 @@ DECIMAL = [0-9]+"."[0-9]+
 COMENTARIOS = (\/\/[^\n]*|\/\*[^*]*\*\/)
 CHAR = \'[^\']\'
 ID = [a-zA-Z][a-zA-Z0-9_]*
+DEFAULT_MATCH = "_"
 
 // Palabras reservadas
 IMPRIMIR = "println"
@@ -104,14 +105,18 @@ CONST = "const"
 IF = "if"
 ELSE = "else"
 MATCH = "match"
-DEFAULT_MATCH = "_"
+FOR = "for"
+BREAK = "break"
+WHILE = "while"
+DO = "do"
+CONTINUE = "continue"
 
 %%
 // Simbolos estructurales
 <YYINITIAL> {PAR1}      {return new Symbol(sym.PAR1, yyline, yycolumn,yytext());}
 <YYINITIAL> {PAR2}      {return new Symbol(sym.PAR2, yyline, yycolumn,yytext());}
-<YYINITIAL> {COR1}      {return new Symbol(sym.COR1, yyline, yycolumn,yytext());}
-<YYINITIAL> {COR2}      {return new Symbol(sym.COR2, yyline, yycolumn,yytext());}
+<YYINITIAL> {LLAV1}      {return new Symbol(sym.LLAV1, yyline, yycolumn,yytext());}
+<YYINITIAL> {LLAV2}      {return new Symbol(sym.LLAV2, yyline, yycolumn,yytext());}
 <YYINITIAL> {FLECHA}    {return new Symbol(sym.FLECHA, yyline, yycolumn, yytext());}
 
 // Palabras reservadas
@@ -129,7 +134,11 @@ DEFAULT_MATCH = "_"
 <YYINITIAL> {ELSE}                  {return new Symbol(sym.ELSE, yyline, yycolumn, yytext());}
 <YYINITIAL> {MATCH}                 {return new Symbol(sym.MATCH, yyline, yycolumn, yytext());}
 <YYINITIAL> {DEFAULT_MATCH}         {return new Symbol(sym.DEFAULT_MATCH, yyline, yycolumn, yytext());}
-
+<YYINITIAL> {FOR}                   {return new Symbol(sym.FOR, yyline, yycolumn, yytext());}
+<YYINITIAL> {BREAK}                 {return new Symbol(sym.BREAK, yyline, yycolumn, yytext());}
+<YYINITIAL> {DO}                    {return new Symbol(sym.DO, yyline, yycolumn, yytext());}
+<YYINITIAL> {WHILE}                 {return new Symbol(sym.WHILE, yyline, yycolumn, yytext());}
+<YYINITIAL> {CONTINUE}              {return new Symbol(sym.CONTINUE, yyline, yycolumn, yytext());}
 
 // Expresiones regulares
 <YYINITIAL> {DECIMAL}   {return new Symbol(sym.DECIMAL, yyline, yycolumn,yytext());}
