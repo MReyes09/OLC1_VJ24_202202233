@@ -1489,7 +1489,7 @@ class CUP$parser$actions {
 		int aleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		String a = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT = new Nativo(new Double(a), new Tipo(tipoDato.DECIMAL), aleft, aright); 
+		 RESULT = new Nativo(Double.valueOf(a), new Tipo(tipoDato.DECIMAL), aleft, aright); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("EXPRESION",18, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;

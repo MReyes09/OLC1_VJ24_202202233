@@ -208,7 +208,7 @@ EXPRESION ::= MENOS EXPRESION:a                     {: RESULT = new Aritmeticas(
             | PAR1 TYPE_DOUBLE PAR2 EXPRESION:a     {: RESULT = new Casteos(a, OperadoresCasteo.DOUBLE, aleft, aright); :}
             | PAR1 TYPE_CHAR PAR2 EXPRESION:a       {: RESULT = new Casteos(a, OperadoresCasteo.CHAR, aleft, aright); :}
             | ENTERO:a                              {: RESULT = new Nativo(Integer.parseInt(a), new Tipo(tipoDato.ENTERO), aleft, aright); :}
-            | DECIMAL:a                             {: RESULT = new Nativo(new Double(a), new Tipo(tipoDato.DECIMAL), aleft, aright); :}
+            | DECIMAL:a                             {: RESULT = new Nativo(Double.valueOf(a), new Tipo(tipoDato.DECIMAL), aleft, aright); :}
             | CADENA:a                              {: RESULT = new Nativo(a, new Tipo(tipoDato.CADENA), aleft, aright); :}
             | TRUE:a                                {: RESULT = new Nativo(Boolean.parseBoolean(a), new Tipo(tipoDato.BOOLEANO), aleft, aright); :}
             | FALSE:a                               {: RESULT = new Nativo(Boolean.parseBoolean(a), new Tipo(tipoDato.BOOLEANO), aleft, aright); :}
