@@ -7,7 +7,6 @@ import simbolo.Arbol;
 import simbolo.Simbolo;
 import simbolo.Tipo;
 import simbolo.tablaSimbolos;
-import view.Ventana_Base;
 
 public class Declaracion extends Instruccion{
 

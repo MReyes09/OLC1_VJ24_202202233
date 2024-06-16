@@ -72,6 +72,11 @@ public class Casteos extends Instruccion{
                 int valor1 = (int)op1;
                 return (double)valor1;
             }
+            case tipoDato.CARACTER -> {
+                this.tipo.setTipo(tipoDato.DECIMAL);
+                int valor1 = (char)op1;
+                return (double)valor1;
+            }
             default -> {
                 String descripcion = "Error al castear: " + op1 + " a " + this.operacion;
                 return new Errores("SEMANTICO", descripcion, this.linea, this.columna);
@@ -89,11 +94,6 @@ public class Casteos extends Instruccion{
                 this.tipo.setTipo(tipoDato.CARACTER);
                 int valor1 = (int)op1;
                 return (char)valor1;
-            }
-            case tipoDato.DECIMAL -> {
-                this.tipo.setTipo(tipoDato.CARACTER);
-                double valor1 = (double)op1;
-                return (char)valor1;                
             }
             default -> {
                 String descripcion = "Error al castear: " + op1 + " a " + this.operacion;

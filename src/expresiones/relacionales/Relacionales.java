@@ -303,8 +303,8 @@ public class Relacionales extends Instruccion{
                 
                 switch (tipo2) {
                     case tipoDato.BOOLEANO -> {
-                        int valor1 = (boolean)op1 ? 1 : 0;
-                        int valor2 = (boolean)op2 ? 1 : 0;
+                        int valor1 = (boolean)op1 ? 0 : 1;
+                        int valor2 = (boolean)op2 ? 0 : 1;
                         return valor1 < valor2;
                     }
                     default -> {
@@ -392,8 +392,8 @@ public class Relacionales extends Instruccion{
                 
                 switch (tipo2) {
                     case tipoDato.BOOLEANO -> {
-                        int valor1 = (boolean)op1 ? 1 : 0;
-                        int valor2 = (boolean)op2 ? 1 : 0;
+                        int valor1 = (boolean)op1 ? 0 : 1;
+                        int valor2 = (boolean)op2 ? 0 : 1;
                         return valor1 <= valor2;
                     }
                     default -> {
