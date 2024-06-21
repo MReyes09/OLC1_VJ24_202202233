@@ -81,6 +81,7 @@ AND = "&&"
 XOR = "^"
 NOT = "!"
 FLECHA = "=>"
+COMA = ","
 
 // Reglas con regex
 BLANCOS = [\ \r\t\n\f]+
@@ -111,6 +112,7 @@ WHILE = "while"
 DO = "do"
 CONTINUE = "continue"
 VOID = "void"
+START_WITH = "start_with"
 
 %%
 // Simbolos estructurales
@@ -141,6 +143,7 @@ VOID = "void"
 <YYINITIAL> {WHILE}                 {return new Symbol(sym.WHILE, yyline, yycolumn, yytext());}
 <YYINITIAL> {CONTINUE}              {return new Symbol(sym.CONTINUE, yyline, yycolumn, yytext());}
 <YYINITIAL> {VOID}                  {return new Symbol(sym.VOID, yyline, yycolumn, yytext());}
+<YYINITIAL> {START_WITH}            {return new Symbol(sym.START_WITH, yyline, yycolumn, yytext());}
 
 // Expresiones regulares
 <YYINITIAL> {DECIMAL}   {return new Symbol(sym.DECIMAL, yyline, yycolumn,yytext());}
@@ -149,6 +152,7 @@ VOID = "void"
 // Símbolos básicos
 <YYINITIAL> {FINCADENA} {return new Symbol(sym.FINCADENA, yyline, yycolumn,yytext());}
 <YYINITIAL> {DOSPUNTOS} {return new Symbol(sym.DOSPUNTOS, yyline, yycolumn,yytext());}
+<YYINITIAL> {COMA}      {return new Symbol(sym.COMA, yyline, yycolumn,yytext());}
 
 // Símbolos Aritméticos
 <YYINITIAL> {MAS}       {return new Symbol(sym.MAS, yyline, yycolumn,yytext());}

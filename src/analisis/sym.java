@@ -41,6 +41,7 @@ public class sym {
   public static final int TRUE = 7;
   public static final int DECREMENTO = 22;
   public static final int error = 1;
+  public static final int COMA = 54;
   public static final int CADENA = 2;
   public static final int DEFAULT_MATCH = 27;
   public static final int MODULO = 20;
@@ -54,6 +55,7 @@ public class sym {
   public static final int DIFERENTE_DE = 31;
   public static final int ELSE = 47;
   public static final int TYPE_STRING = 13;
+  public static final int START_WITH = 55;
   public static final int WHILE = 50;
   public static final int MAYOR_IGUAL = 35;
   public static final int MENOR_QUE = 32;
@@ -116,7 +118,9 @@ public class sym {
   "WHILE",
   "DO",
   "CONTINUE",
-  "VOID"
+  "VOID",
+  "COMA",
+  "START_WITH"
   };
 }
 

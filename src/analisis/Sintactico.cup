@@ -7,6 +7,7 @@ import abstracto.Instruccion;
 import simbolo.Tipo;
 import simbolo.tipoDato;
 import excepciones.Errores;
+import java.util.HashMap;
 
 //instrucciones
 import instrucciones.Print;
@@ -22,6 +23,7 @@ import instrucciones.sentencias_Ciclicas.Do_While;
 import instrucciones.sentencias_Transferencia.Break;
 import instrucciones.sentencias_Transferencia.Continue;
 import instrucciones.subrutina.Metodo;
+import instrucciones.subrutina.Execute;
 
 //expresiones
 import expresiones.Nativo;
@@ -77,7 +79,7 @@ terminal OR, AND, XOR, NOT, FLECHA;
 terminal DOSPUNTOS, FINCADENA;
 terminal String BREAK;
 terminal CONST, VAR, IF, ELSE, MATCH, FOR, WHILE, DO, CONTINUE;
-terminal VOID;
+terminal VOID, COMA, START_WITH;
 
 //no terminales
 nonterminal LinkedList<Instruccion> INICIO, INSTRUCCIONES;
@@ -92,6 +94,9 @@ nonterminal Tipo TIPOS;
 nonterminal Boolean MUTABILIDAD;
 nonterminal Instruccion EXPRESION;
 nonterminal Instruccion METODO;
+nonterminal LinkedList<HashMap> PARAMS;
+nonterminal Instruccion Start_WITH;
+nonterminal LinkedList<Instruccion> PARAMSCALL;
 
 precedence left OR;  // nivel 8, asociatividad izquierda
 precedence left AND;  // nivel 7, asociatividad izquierda
@@ -125,6 +130,7 @@ INSTRUCCION ::= IMPRESION:a                             {: RESULT = a; :}
             | CONTINIU:a                                {: RESULT = a; :}
             | SMATCH:a                                  {: RESULT = a; :}
             | METODO:a                                  {: RESULT = a; :}
+            | Start_WITH:a                              {: RESULT = a; :}
             | error FINCADENA
             | error
 ;
@@ -191,8 +197,39 @@ CDO_WHILE ::= DO LLAV1 INSTRUCCIONES:a LLAV2 WHILE PAR1 EXPRESION:b PAR2 FINCADE
 ;
 
 // AGREGADO DE LA FASE 2
-METODO ::= TIPOS:a ID_VARIABLE:b PAR1 PAR2 LLAV1 INSTRUCCIONES:c LLAV2            {: RESULT = new Metodo(b, c, a, aleft, aright); :}
+METODO ::= TIPOS:a ID_VARIABLE:b PAR1 PARAMS:p PAR2 LLAV1 INSTRUCCIONES:c LLAV2     {: RESULT = new Metodo(b, p, c, a, aleft, aright); :}
+        | TIPOS:a ID_VARIABLE:b PAR1 PAR2 LLAV1 INSTRUCCIONES:c LLAV2               {: RESULT = new Metodo(b, new LinkedList<HashMap>(), c, a, aleft, aright); :}
 ; 
+
+PARAMS ::= PARAMS:a COMA TIPOS:b ID_VARIABLE:c              {: 
+                                                                RESULT = a;
+                                                                var hm2 = new HashMap<String, Object>();
+                                                                hm2.put("id", c);
+                                                                hm2.put("tipo", b);
+                                                                RESULT.add(hm2);
+                                                            :}
+
+        | TIPOS:a ID_VARIABLE:b                             {: RESULT = new LinkedList<HashMap>();
+                                                                var hm = new HashMap<String, Object>();
+                                                                hm.put("id",b);
+                                                                hm.put("tipo",a); 
+                                                                RESULT.add(hm);
+                                                            :}   
+;
+
+Start_WITH ::= START_WITH ID_VARIABLE:a PAR1 PARAMSCALL:b PAR2 FINCADENA        {: RESULT = new Execute(a, b, aleft, aright); :}
+            |  START_WITH ID_VARIABLE:a PAR1 PAR2 FINCADENA                     {: RESULT = new Execute(a, new LinkedList<Instruccion>(), aleft, aright); :}
+;
+
+PARAMSCALL ::= PARAMSCALL:a COMA EXPRESION:b          {: 
+                                                        RESULT = a; 
+                                                        RESULT.add(b);
+                                                    :}
+            | EXPRESION:a                           {: 
+                                                        RESULT = new LinkedList<Instruccion>(); 
+                                                        RESULT.add(a);
+                                                    :}
+;
 
 //public Relacionales(Instruccion operador1, Instruccion operador2, OperadoresRelacionales operacion, Tipo tipo, int linea, int columna) {
 EXPRESION ::= MENOS EXPRESION:a                     {: RESULT = new Aritmeticas(a, OperadoresAritmeticos.NEGACION, aleft, aright); :} %prec UMENOS

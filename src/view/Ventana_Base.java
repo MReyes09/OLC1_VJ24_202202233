@@ -8,6 +8,7 @@ import controller.Work_Table;
 import excepciones.Errores;
 import instrucciones.AsignacionVar;
 import instrucciones.Declaracion;
+import instrucciones.subrutina.Execute;
 import instrucciones.subrutina.Metodo;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -322,11 +323,28 @@ public class Ventana_Base extends javax.swing.JFrame {
                         lista.add((Errores) res);
                     }
                 }
-                // Metodos -> Funciones y Structs
+                // DECLARACIONES O ASIGNACIONES
             }
             // TERCERA VUELTA AGREGAR EL START WITH
+            Execute e = null;
+            for(var a: ast.getInstrucciones()){
+                
+                if(a == null) {
+                    continue;
+                }
+                
+                if(a instanceof Execute) {
+                    e = (Execute) a;
+                    break;
+                }
+                // START_WITH
+            }
             
-            System.out.println("Validar almacenamiento de funciones y variables globales");
+            var resultadoExecute = e.interpretar(ast, tabla);
+            if(resultadoExecute instanceof Errores) {
+                System.out.println("Peto xD");
+            }
+            
             txt_Con.setText(ast.getConsola()+ "\n");
 
             for (var res : lista) {
