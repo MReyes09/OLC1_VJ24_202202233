@@ -110,6 +110,7 @@ BREAK = "break"
 WHILE = "while"
 DO = "do"
 CONTINUE = "continue"
+VOID = "void"
 
 %%
 // Simbolos estructurales
@@ -139,6 +140,7 @@ CONTINUE = "continue"
 <YYINITIAL> {DO}                    {return new Symbol(sym.DO, yyline, yycolumn, yytext());}
 <YYINITIAL> {WHILE}                 {return new Symbol(sym.WHILE, yyline, yycolumn, yytext());}
 <YYINITIAL> {CONTINUE}              {return new Symbol(sym.CONTINUE, yyline, yycolumn, yytext());}
+<YYINITIAL> {VOID}                  {return new Symbol(sym.VOID, yyline, yycolumn, yytext());}
 
 // Expresiones regulares
 <YYINITIAL> {DECIMAL}   {return new Symbol(sym.DECIMAL, yyline, yycolumn,yytext());}
@@ -178,7 +180,8 @@ CONTINUE = "continue"
 <YYINITIAL> {BLANCOS}   {}
 <YYINITIAL> {CHAR}          {return new Symbol(sym.CHAR, yyline, yycolumn, yytext());}
 
-<YYINITIAL> {ID}          {return new Symbol(sym.ID_VARIABLE, yyline, yycolumn, yytext());}
+<YYINITIAL> {ID}            {return new Symbol(sym.ID_VARIABLE, yyline, yycolumn, yytext());}
+
 
 //SIMBOLOS CON STATE
 

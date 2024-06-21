@@ -6,6 +6,9 @@ import analisis.parser;
 import analisis.scanner;
 import controller.Work_Table;
 import excepciones.Errores;
+import instrucciones.AsignacionVar;
+import instrucciones.Declaracion;
+import instrucciones.subrutina.Metodo;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -289,6 +292,7 @@ public class Ventana_Base extends javax.swing.JFrame {
             var tabla = new tablaSimbolos();
             tabla.setNombre("Global");
             ast.setConsola("");
+            ast.setTablaGlobal(tabla);
             tabla_Simbolos.removeAll(tabla_Simbolos);
             lista.removeAll(lista);
             lista.addAll(s.listaErrores);
@@ -300,11 +304,29 @@ public class Ventana_Base extends javax.swing.JFrame {
                     continue;
                 }
                 
-                var res = a.interpretar(ast, tabla);
-                if (res instanceof Errores){
-                    lista.add((Errores) res);
+                if ( a instanceof Metodo) {
+                    ast.addFunciones(a);
                 }
+                // Metodos -> Funciones y Structs
             }
+            
+            for(var a: ast.getInstrucciones()){
+                
+                if(a == null) {
+                    continue;
+                }
+                
+                if ( a instanceof Declaracion || a instanceof AsignacionVar) {
+                    var res = a.interpretar(ast, tabla);
+                    if (res instanceof Errores){
+                        lista.add((Errores) res);
+                    }
+                }
+                // Metodos -> Funciones y Structs
+            }
+            // TERCERA VUELTA AGREGAR EL START WITH
+            
+            System.out.println("Validar almacenamiento de funciones y variables globales");
             txt_Con.setText(ast.getConsola()+ "\n");
 
             for (var res : lista) {

@@ -108,3 +108,12 @@ simbolo inicial = <INICIO>
               | FALSE
               | CHAR
               | ID_VARIABLE
+
+
+
+
+println("HOLA");
+
+INSTRUCCION INSTRUCCION 
+FUNCION
+        "HOLA"

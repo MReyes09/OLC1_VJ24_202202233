@@ -21,6 +21,7 @@ import instrucciones.sentencias_Ciclicas.While;
 import instrucciones.sentencias_Ciclicas.Do_While;
 import instrucciones.sentencias_Transferencia.Break;
 import instrucciones.sentencias_Transferencia.Continue;
+import instrucciones.subrutina.Metodo;
 
 //expresiones
 import expresiones.Nativo;
@@ -76,6 +77,7 @@ terminal OR, AND, XOR, NOT, FLECHA;
 terminal DOSPUNTOS, FINCADENA;
 terminal String BREAK;
 terminal CONST, VAR, IF, ELSE, MATCH, FOR, WHILE, DO, CONTINUE;
+terminal VOID;
 
 //no terminales
 nonterminal LinkedList<Instruccion> INICIO, INSTRUCCIONES;
@@ -89,6 +91,7 @@ nonterminal Instruccion SALIDA, CONTINIU;
 nonterminal Tipo TIPOS;
 nonterminal Boolean MUTABILIDAD;
 nonterminal Instruccion EXPRESION;
+nonterminal Instruccion METODO;
 
 precedence left OR;  // nivel 8, asociatividad izquierda
 precedence left AND;  // nivel 7, asociatividad izquierda
@@ -121,6 +124,7 @@ INSTRUCCION ::= IMPRESION:a                             {: RESULT = a; :}
             | SALIDA:a                                  {: RESULT = a; :}
             | CONTINIU:a                                {: RESULT = a; :}
             | SMATCH:a                                  {: RESULT = a; :}
+            | METODO:a                                  {: RESULT = a; :}
             | error FINCADENA
             | error
 ;
@@ -146,6 +150,7 @@ TIPOS ::= TYPE_INT          {: RESULT = new Tipo(tipoDato.ENTERO); :}
         | TYPE_STRING       {: RESULT = new Tipo(tipoDato.CADENA); :}
         | TYPE_CHAR         {: RESULT = new Tipo(tipoDato.CARACTER); :}
         | TYPE_BOOLEAN      {: RESULT = new Tipo(tipoDato.BOOLEANO); :}
+        | VOID              {: RESULT = new Tipo(tipoDato.VOID); :}
 ;
 
 SIF ::= IF PAR1 EXPRESION:a PAR2 LLAV1 INSTRUCCIONES:b LLAV2                                      {: RESULT = new If(a, b, aleft, aright);   :}
@@ -184,6 +189,10 @@ CWHILE ::= WHILE PAR1 EXPRESION:a PAR2 LLAV1 INSTRUCCIONES:b LLAV2      {: RESUL
 
 CDO_WHILE ::= DO LLAV1 INSTRUCCIONES:a LLAV2 WHILE PAR1 EXPRESION:b PAR2 FINCADENA {: RESULT = new Do_While(b, a, aleft, aright); :}
 ;
+
+// AGREGADO DE LA FASE 2
+METODO ::= TIPOS:a ID_VARIABLE:b PAR1 PAR2 LLAV1 INSTRUCCIONES:c LLAV2            {: RESULT = new Metodo(b, c, a, aleft, aright); :}
+; 
 
 //public Relacionales(Instruccion operador1, Instruccion operador2, OperadoresRelacionales operacion, Tipo tipo, int linea, int columna) {
 EXPRESION ::= MENOS EXPRESION:a                     {: RESULT = new Aritmeticas(a, OperadoresAritmeticos.NEGACION, aleft, aright); :} %prec UMENOS

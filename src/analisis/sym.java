@@ -47,6 +47,7 @@ public class sym {
   public static final int MENOS = 16;
   public static final int MAYOR_QUE = 34;
   public static final int BREAK = 43;
+  public static final int VOID = 53;
   public static final int TYPE_CHAR = 12;
   public static final int POTENCIA = 19;
   public static final int FLECHA = 40;
@@ -114,7 +115,8 @@ public class sym {
   "FOR",
   "WHILE",
   "DO",
-  "CONTINUE"
+  "CONTINUE",
+  "VOID"
   };
 }
 
