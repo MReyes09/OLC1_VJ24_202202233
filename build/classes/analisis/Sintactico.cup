@@ -99,7 +99,8 @@ nonterminal LinkedList<HashMap> PARAMS;
 nonterminal Instruccion Start_WITH;
 nonterminal LinkedList<Instruccion> PARAMSCALL;
 nonterminal Instruccion DECLARACION_VECTORES;
-nonterminal LinkedList<Instruccion> LISTAVALORES1, LISTAVALORES2;
+nonterminal LinkedList<Instruccion> LISTAVALORES1;
+nonterminal LinkedList<LinkedList<Instruccion>> LISTAVALORES2;
 
 precedence left OR;  // nivel 8, asociatividad izquierda
 precedence left AND;  // nivel 7, asociatividad izquierda
@@ -150,10 +151,32 @@ DECLARACION ::= MUTABILIDAD:d ID_VARIABLE:b DOSPUNTOS TIPOS:a IGUAL EXPRESION:c 
 DECLARACION_VECTORES ::= MUTABILIDAD:a ID_VARIABLE:b DOSPUNTOS TIPOS:c COR1 COR2 IGUAL COR1 LISTAVALORES1:d COR2 FINCADENA      {: 
                                                                                                                                     RESULT = new Declaracion_Vectores(b, d, null, a, c, aleft, aright);
                                                                                                                                 :}
+| MUTABILIDAD:a ID_VARIABLE:b DOSPUNTOS TIPOS:c COR1 COR2 COR1 COR2 IGUAL COR1 LISTAVALORES2:d COR2 FINCADENA
+            {:
+                LinkedList<LinkedList<Instruccion>> valores_2D = d;
+                LinkedList<Instruccion> valores1 = new LinkedList<>();
+                LinkedList<Instruccion> valores2 = new LinkedList<>();
+                //ITERAR VALORES_2D PARA SEPARAR VALORES DE FILA Y COLUMNA
+                for(LinkedList<Instruccion> sublista: valores_2D){
+                    for(int i = 0; i < sublista.size(); i++){
+                        // Distribuir elementos de sublist en valores1 y valores2
+                        if( i == 0 ){
+                            valores1.add(sublista.get(i));
+                        } else if ( i == 1 ){
+                            valores2.add(sublista.get(i));
+                        }
+                    }
+                }
+                RESULT = new Declaracion_Vectores(b, valores1, valores2, a, c, aleft, aright);
+            :}
 ;
 
 LISTAVALORES1 ::= LISTAVALORES1:a COMA EXPRESION:b                  {: RESULT = a; RESULT.add(b); :}
             | EXPRESION:a                                           {: RESULT = new LinkedList<>(); RESULT.add(a); :}
+;
+
+LISTAVALORES2 ::= LISTAVALORES2:a COMA COR1 LISTAVALORES1:b COR2    {: RESULT = a; RESULT.add(b); :}
+                | COR1 LISTAVALORES1:a COR2                         {: RESULT = new LinkedList<>(); RESULT.add(a); :}
 ;
 
 MUTABILIDAD ::= VAR         {: RESULT = true; :}
