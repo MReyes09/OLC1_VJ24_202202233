@@ -10,6 +10,7 @@ import instrucciones.AsignacionVar;
 import instrucciones.Declaracion;
 import instrucciones.subrutina.Execute;
 import instrucciones.subrutina.Metodo;
+import instrucciones.vectores.Declaracion_Vectores;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -317,7 +318,7 @@ public class Ventana_Base extends javax.swing.JFrame {
                     continue;
                 }
                 
-                if ( a instanceof Declaracion || a instanceof AsignacionVar) {
+                if ( a instanceof Declaracion || a instanceof AsignacionVar || a instanceof Declaracion_Vectores ) {
                     var res = a.interpretar(ast, tabla);
                     if (res instanceof Errores){
                         lista.add((Errores) res);
@@ -339,7 +340,7 @@ public class Ventana_Base extends javax.swing.JFrame {
                 }
                 // START_WITH
             }
-            
+            System.out.println("A ver");
             var resultadoExecute = e.interpretar(ast, tabla);
             if(resultadoExecute instanceof Errores) {
                 System.out.println("Peto xD");

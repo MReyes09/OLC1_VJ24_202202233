@@ -51,6 +51,8 @@ PAR1 = "("
 PAR2 = ")"
 LLAV1 = "{"
 LLAV2 = "}"
+COR1 = "["
+COR2 = "]"
 
 FINCADENA = ";"
 DOSPUNTOS = ":"
@@ -116,11 +118,13 @@ START_WITH = "start_with"
 
 %%
 // Simbolos estructurales
-<YYINITIAL> {PAR1}      {return new Symbol(sym.PAR1, yyline, yycolumn,yytext());}
-<YYINITIAL> {PAR2}      {return new Symbol(sym.PAR2, yyline, yycolumn,yytext());}
-<YYINITIAL> {LLAV1}      {return new Symbol(sym.LLAV1, yyline, yycolumn,yytext());}
-<YYINITIAL> {LLAV2}      {return new Symbol(sym.LLAV2, yyline, yycolumn,yytext());}
-<YYINITIAL> {FLECHA}    {return new Symbol(sym.FLECHA, yyline, yycolumn, yytext());}
+<YYINITIAL> {PAR1}          {return new Symbol(sym.PAR1, yyline, yycolumn,yytext());}
+<YYINITIAL> {PAR2}          {return new Symbol(sym.PAR2, yyline, yycolumn,yytext());}
+<YYINITIAL> {COR1}          {return new Symbol(sym.COR1, yyline, yycolumn,yytext());}
+<YYINITIAL> {COR2}          {return new Symbol(sym.COR2, yyline, yycolumn,yytext());}
+<YYINITIAL> {LLAV1}         {return new Symbol(sym.LLAV1, yyline, yycolumn,yytext());}
+<YYINITIAL> {LLAV2}         {return new Symbol(sym.LLAV2, yyline, yycolumn,yytext());}
+<YYINITIAL> {FLECHA}        {return new Symbol(sym.FLECHA, yyline, yycolumn, yytext());}
 
 // Palabras reservadas
 <YYINITIAL> {IMPRIMIR}              {return new Symbol(sym.IMPRIMIR, yyline, yycolumn,yytext());}
