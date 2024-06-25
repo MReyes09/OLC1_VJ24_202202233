@@ -102,9 +102,9 @@ public class AccesoVec extends Instruccion{
             return new Errores("SEMANTICA", descripcion,
                 this.linea, this.columna);
 
-        }else if( lista_Vectores.size() <= (int)resultado_Posicion1 || (int)resultado_Posicion2 >= 2){
+        }else if( lista_Vectores.size() <= (int)resultado_Posicion1){
 
-            String descripcion = "La posicion es mayor al tamaño de la lista";
+            String descripcion = "La posicion es mayor al tamaño de la fila";
             return new Errores("SEMANTICA", descripcion,
                 this.linea, this.columna);
 
@@ -113,6 +113,14 @@ public class AccesoVec extends Instruccion{
         int posicion_X = (int)resultado_Posicion2;
         
         ArrayList<Object> lista_Final = (ArrayList<Object>)lista_Vectores.get(posicion_Y);
+        
+        if ( lista_Final.size() <= posicion_X ) {
+            
+            String descripcion = "La posicion es mayor al tamaño de la columna";
+            return new Errores("SEMANTICA", descripcion,
+                this.linea, this.columna);
+            
+        }
             
         return lista_Final.get(posicion_X);
         

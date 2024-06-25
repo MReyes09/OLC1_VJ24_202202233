@@ -1128,20 +1128,7 @@ class CUP$parser$actions {
 		LinkedList<LinkedList<Instruccion>> d = (LinkedList<LinkedList<Instruccion>>)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
 		
                 LinkedList<LinkedList<Instruccion>> valores_2D = d;
-                LinkedList<Instruccion> valores1 = new LinkedList<>();
-                LinkedList<Instruccion> valores2 = new LinkedList<>();
-                //ITERAR VALORES_2D PARA SEPARAR VALORES DE FILA Y COLUMNA
-                for(LinkedList<Instruccion> sublista: valores_2D){
-                    for(int i = 0; i < sublista.size(); i++){
-                        // Distribuir elementos de sublist en valores1 y valores2
-                        if( i == 0 ){
-                            valores1.add(sublista.get(i));
-                        } else if ( i == 1 ){
-                            valores2.add(sublista.get(i));
-                        }
-                    }
-                }
-                RESULT = new Declaracion_Vectores(b, valores1, valores2, a, c, aleft, aright);
+                RESULT = new Declaracion_Vectores(b, null, valores_2D, a, c, aleft, aright);
             
               CUP$parser$result = parser.getSymbolFactory().newSymbol("DECLARACION_VECTORES",23, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-12)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
