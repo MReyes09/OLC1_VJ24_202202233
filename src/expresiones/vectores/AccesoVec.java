@@ -112,6 +112,12 @@ public class AccesoVec extends Instruccion{
         int posicion_Y = (int)resultado_Posicion1;
         int posicion_X = (int)resultado_Posicion2;
         
+        if(lista_Vectores.size() <= posicion_Y){
+            String descripcion = "La posicion es mayor al tamaño de la fila";
+            return new Errores("SEMANTICA", descripcion,
+                this.linea, this.columna);
+        }
+        
         ArrayList<Object> lista_Final = (ArrayList<Object>)lista_Vectores.get(posicion_Y);
         
         if ( lista_Final.size() <= posicion_X ) {

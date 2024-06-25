@@ -25,6 +25,7 @@ import instrucciones.sentencias_Transferencia.Continue;
 import instrucciones.subrutina.Metodo;
 import instrucciones.subrutina.Execute;
 import instrucciones.vectores.Declaracion_Vectores;
+import instrucciones.vectores.AsignacionVec;
 
 //expresiones
 import expresiones.Nativo;
@@ -102,6 +103,7 @@ nonterminal LinkedList<Instruccion> PARAMSCALL;
 nonterminal Instruccion DECLARACION_VECTORES;
 nonterminal LinkedList<Instruccion> LISTAVALORES1;
 nonterminal LinkedList<LinkedList<Instruccion>> LISTAVALORES2;
+nonterminal Instruccion ASIGNACION_VECT;
 
 precedence left OR;  // nivel 8, asociatividad izquierda
 precedence left AND;  // nivel 7, asociatividad izquierda
@@ -137,6 +139,7 @@ INSTRUCCION ::= IMPRESION:a                             {: RESULT = a; :}
             | METODO:a                                  {: RESULT = a; :}
             | Start_WITH:a                              {: RESULT = a; :}
             | DECLARACION_VECTORES:a                    {: RESULT = a; :}
+            | ASIGNACION_VECT:a                         {: RESULT = a; :}
             | error FINCADENA
             | error
 ;
@@ -174,6 +177,10 @@ MUTABILIDAD ::= VAR         {: RESULT = true; :}
 ASIGNACION ::= ID_VARIABLE:a IGUAL EXPRESION:b FINCADENA         {: RESULT = new AsignacionVar(a, b, aleft, aright); :}
     | ID_VARIABLE:a INCREMENTO FINCADENA                         {: RESULT = new AsignacionVar(a, OperadoresVariable.INCREMENTO, aleft, aright); :}
     | ID_VARIABLE:a DECREMENTO FINCADENA                         {: RESULT = new AsignacionVar(a, OperadoresVariable.DECREMENTO, aleft, aright); :}
+;
+
+ASIGNACION_VECT ::= ID_VARIABLE:a COR1 EXPRESION:b COR2 IGUAL EXPRESION:c FINCADENA                             {: RESULT = new AsignacionVec(a, b, null, c, aleft, aright); :}
+                  | ID_VARIABLE:a COR1 EXPRESION:b COR2 COR1 EXPRESION:c COR2 IGUAL EXPRESION:d FINCADENA       {: RESULT = new AsignacionVec(a, b, c, d, aleft, aright); :}
 ;
 
 TIPOS ::= TYPE_INT          {: RESULT = new Tipo(tipoDato.ENTERO); :}
