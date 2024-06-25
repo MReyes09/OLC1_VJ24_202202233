@@ -36,7 +36,7 @@ public class Declaracion_Vectores extends Instruccion{
             // Ambos valores1 y valores2 tienen datos
             for (int i = 0; i < valores1.size(); i++) {
                 List<Object> fila = new ArrayList<>();
-                for (int j = 0; j < valores2.size(); j++) {
+                for (int j = 0; j < valores2.size()-1; j++) {
                     fila.add(null); // Inicializar con un valor por defecto
                 }
                 staticList.add(fila);
@@ -57,7 +57,7 @@ public class Declaracion_Vectores extends Instruccion{
             boolean creacion = tabla.setVariable(s);
             
             if(!creacion) {
-                return new Errores("SEMANTICO", "Variable ya existente" + this.identificador, this.linea, this.columna);
+                return new Errores("SEMANTICO", "Variable ya existente " + this.identificador, this.linea, this.columna);
             }
             view.Ventana_Base.tabla_Simbolos.add(s);
         }else{
@@ -82,7 +82,7 @@ public class Declaracion_Vectores extends Instruccion{
             boolean creacion = tabla.setVariable(s);
             
             if(!creacion) {
-                return new Errores("SEMANTICO", "Variable ya existente" + this.identificador, this.linea, this.columna);
+                return new Errores("SEMANTICO", "Variable ya existente " + this.identificador, this.linea, this.columna);
             }
             view.Ventana_Base.tabla_Simbolos.add(s);
         }
@@ -105,7 +105,7 @@ public class Declaracion_Vectores extends Instruccion{
 
             if( instruccion.tipo.getTipo() != this.tipo.getTipo() ) {
                 String descripcion = "Se intenta asignar el tipo: " + instruccion.tipo.getTipo() 
-                        + "A una variable de tipo: " + this.tipo.getTipo(); 
+                        + " A una variable de tipo: " + this.tipo.getTipo(); 
                 return new Errores("SEMANTICO", descripcion, this.linea, this.columna);
             }
 
@@ -127,7 +127,7 @@ public class Declaracion_Vectores extends Instruccion{
             //PARA COLUMNA 0
             if( instruccion1.tipo.getTipo() != this.tipo.getTipo() ) {
                 String descripcion = "Se intenta asignar el tipo: " + instruccion1.tipo.getTipo() 
-                        + "A una variable de tipo: " + this.tipo.getTipo(); 
+                        + " A una variable de tipo: " + this.tipo.getTipo(); 
                 return new Errores("SEMANTICO", descripcion, this.linea, this.columna);
             }
             
@@ -146,7 +146,7 @@ public class Declaracion_Vectores extends Instruccion{
             }
             if( instruccion2.tipo.getTipo() != this.tipo.getTipo() ) {
                 String descripcion = "Se intenta asignar el tipo: " + instruccion2.tipo.getTipo() 
-                        + "A una variable de tipo: " + this.tipo.getTipo(); 
+                        + " A una variable de tipo: " + this.tipo.getTipo(); 
                 return new Errores("SEMANTICO", descripcion, this.linea, this.columna);
             }
             //PARA COLUMNA 1

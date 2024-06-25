@@ -343,7 +343,7 @@ public class Ventana_Base extends javax.swing.JFrame {
             System.out.println("A ver");
             var resultadoExecute = e.interpretar(ast, tabla);
             if(resultadoExecute instanceof Errores) {
-                System.out.println("Peto xD");
+                lista.add((Errores) resultadoExecute);
             }
             
             txt_Con.setText(ast.getConsola()+ "\n");

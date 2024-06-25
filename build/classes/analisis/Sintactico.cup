@@ -38,6 +38,7 @@ import expresiones.casteo.Casteos;
 import expresiones.casteo.OperadoresCasteo;
 import expresiones.variable.AccesoVar;
 import expresiones.variable.OperadoresVariable;
+import expresiones.vectores.AccesoVec;
 
 // parser
 parser code
@@ -297,4 +298,6 @@ EXPRESION ::= MENOS EXPRESION:a                     {: RESULT = new Aritmeticas(
             | FALSE:a                               {: RESULT = new Nativo(Boolean.parseBoolean(a), new Tipo(tipoDato.BOOLEANO), aleft, aright); :}
             | CHAR:a                                {: RESULT = new Nativo(a.charAt(1), new Tipo(tipoDato.CARACTER), aleft, aright); :}
             | ID_VARIABLE:a                         {: RESULT = new AccesoVar(a, aleft, aright); :}
+            | ID_VARIABLE:a COR1 EXPRESION:b COR2   {: RESULT = new AccesoVec(a, b, null, aleft, aright);:}
+            | ID_VARIABLE:a COR1 EXPRESION:b COR2 COR1 EXPRESION:c COR2     {: RESULT = new AccesoVec(a, b, c, aleft, aright);:}
 ;
