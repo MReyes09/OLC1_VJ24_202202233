@@ -7,6 +7,7 @@ import simbolo.Arbol;
 import simbolo.Simbolo;
 import simbolo.Tipo;
 import simbolo.tablaSimbolos;
+import simbolo.tipoDato;
 
 public class Declaracion extends Instruccion{
 
@@ -14,6 +15,7 @@ public class Declaracion extends Instruccion{
     public Instruccion valor;
     public boolean mutabilidad;
     public String bloque;
+    public boolean es_Struct;
 
     public Declaracion(boolean mutabilidad, String identificador, Instruccion valor, Tipo tipo, int linea, int columna) {
         super(tipo, linea, columna);
@@ -21,6 +23,7 @@ public class Declaracion extends Instruccion{
         this.valor = valor;
         this.mutabilidad = mutabilidad;
         this.bloque = "";
+        this.es_Struct = false;
     }
     
     public Declaracion(boolean mutabilidad, String identificador, Tipo tipo, int linea, int columna) {
@@ -28,7 +31,16 @@ public class Declaracion extends Instruccion{
         this.identificador = identificador;
         this.mutabilidad = mutabilidad;
         this.bloque = "";
-    }   
+        this.es_Struct = false;
+    }
+    
+    public Declaracion(String identificador, Tipo tipo, int linea, int columna) {
+        super(tipo, linea, columna);
+        this.identificador = identificador;
+        this.mutabilidad = true;
+        this.bloque = "";
+        this.es_Struct = true;
+    }  
     
     
     @Override
@@ -83,6 +95,9 @@ public class Declaracion extends Instruccion{
                 this.setBloque("Global");
             }
             s.setEntorno(bloque);
+            if( this.es_Struct ){
+                return s;
+            }
             boolean creacion = tabla.setVariable(s);
             if(!creacion) {
                 return new Errores("SEMANTICO", "Variable ya existente", this.linea, this.columna);

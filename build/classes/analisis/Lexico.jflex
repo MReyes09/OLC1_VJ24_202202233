@@ -56,6 +56,7 @@ COR2 = "]"
 
 FINCADENA = ";"
 DOSPUNTOS = ":"
+PUNTO = "."
 
 
 //OPERADOS ARITMETICOS
@@ -115,6 +116,14 @@ DO = "do"
 CONTINUE = "continue"
 VOID = "void"
 START_WITH = "start_with"
+LIST = "list"
+NEW = "new"
+APPEND = "append"
+REMOVE = "remove"
+STRUCT = "struct"
+ROUND = "round"
+LENGTH = "length"
+FIND = "find"
 
 %%
 // Simbolos estructurales
@@ -148,6 +157,14 @@ START_WITH = "start_with"
 <YYINITIAL> {CONTINUE}              {return new Symbol(sym.CONTINUE, yyline, yycolumn, yytext());}
 <YYINITIAL> {VOID}                  {return new Symbol(sym.VOID, yyline, yycolumn, yytext());}
 <YYINITIAL> {START_WITH}            {return new Symbol(sym.START_WITH, yyline, yycolumn, yytext());}
+<YYINITIAL> {LIST}                  {return new Symbol(sym.LIST, yyline, yycolumn, yytext());}
+<YYINITIAL> {NEW}                   {return new Symbol(sym.NEW, yyline, yycolumn, yytext());}
+<YYINITIAL> {APPEND}                {return new Symbol(sym.APPEND, yyline, yycolumn, yytext());}
+<YYINITIAL> {REMOVE}                {return new Symbol(sym.REMOVE, yyline, yycolumn, yytext());}
+<YYINITIAL> {STRUCT}                {return new Symbol(sym.STRUCT, yyline, yycolumn, yytext());}
+<YYINITIAL> {ROUND}                 {return new Symbol(sym.ROUND, yyline, yycolumn, yytext());}
+<YYINITIAL> {LENGTH}                {return new Symbol(sym.LENGTH, yyline, yycolumn, yytext());}
+<YYINITIAL> {FIND}                  {return new Symbol(sym.FIND, yyline, yycolumn, yytext());}
 
 // Expresiones regulares
 <YYINITIAL> {DECIMAL}   {return new Symbol(sym.DECIMAL, yyline, yycolumn,yytext());}
@@ -157,6 +174,7 @@ START_WITH = "start_with"
 <YYINITIAL> {FINCADENA} {return new Symbol(sym.FINCADENA, yyline, yycolumn,yytext());}
 <YYINITIAL> {DOSPUNTOS} {return new Symbol(sym.DOSPUNTOS, yyline, yycolumn,yytext());}
 <YYINITIAL> {COMA}      {return new Symbol(sym.COMA, yyline, yycolumn,yytext());}
+<YYINITIAL> {PUNTO}     {return new Symbol(sym.PUNTO, yyline, yycolumn,yytext());}
 
 // Símbolos Aritméticos
 <YYINITIAL> {MAS}       {return new Symbol(sym.MAS, yyline, yycolumn,yytext());}

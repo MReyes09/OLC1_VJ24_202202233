@@ -55,6 +55,9 @@ public class AccesoVec extends Instruccion{
         }else{
             
             // VALIDACION PARA VECTOR 1D
+            if( variable.getValor() instanceof ArrayList){
+                return this.acceso_Vector_1D(arbol, tabla, (ArrayList<Object>)variable.getValor());
+            }
             return this.acceso_Vector_1D(arbol, tabla, lista_Vectores);
             
         }
@@ -65,24 +68,24 @@ public class AccesoVec extends Instruccion{
         
         var resultado_Posicion1 = posicion_F.interpretar(arbol, tabla);
             
-            //Errores Posibles
-            if( resultado_Posicion1 instanceof Errores ){
-                return resultado_Posicion1;
-            }else if( posicion_F.tipo.getTipo() != tipoDato.ENTERO ){
-                
-                String descripcion = "Se esperaban datos de tipo Entero";
-                return new Errores("SEMANTICA", descripcion,
-                    this.linea, this.columna);
-                
-            }else if( lista_Vectores.size() <= (int)resultado_Posicion1 ){
-                
-                String descripcion = "La posicion es mayor al tamaño de la lista";
-                return new Errores("SEMANTICA", descripcion,
-                    this.linea, this.columna);
-                
-            }
+        //Errores Posibles
+        if( resultado_Posicion1 instanceof Errores ){
+            return resultado_Posicion1;
+        }else if( posicion_F.tipo.getTipo() != tipoDato.ENTERO ){
+
+            String descripcion = "Se esperaban datos de tipo Entero";
+            return new Errores("SEMANTICA", descripcion,
+                this.linea, this.columna);
+
+        }else if( lista_Vectores.size() <= (int)resultado_Posicion1 ){
+
+            String descripcion = "La posicion es mayor al tamaño de la lista";
+            return new Errores("SEMANTICA", descripcion,
+                this.linea, this.columna);
+
+        }
             
-            return lista_Vectores.get((int) resultado_Posicion1);
+        return lista_Vectores.get((int) resultado_Posicion1);
         
     }
     
@@ -129,6 +132,31 @@ public class AccesoVec extends Instruccion{
         }
             
         return lista_Final.get(posicion_X);
+        
+    }
+    
+    public Object acceso_Dinamico_1D(Arbol arbol, tablaSimbolos tabla, ArrayList<Object> lista_Vectores){
+        
+        var resultado_Posicion1 = posicion_F.interpretar(arbol, tabla);
+            
+        //Errores Posibles
+        if( resultado_Posicion1 instanceof Errores ){
+            return resultado_Posicion1;
+        }else if( posicion_F.tipo.getTipo() != tipoDato.ENTERO ){
+
+            String descripcion = "Se esperaban datos de tipo Entero";
+            return new Errores("SEMANTICA", descripcion,
+                this.linea, this.columna);
+
+        }else if( lista_Vectores.size() <= (int)resultado_Posicion1 ){
+
+            String descripcion = "La posicion es mayor al tamaño de la lista";
+            return new Errores("SEMANTICA", descripcion,
+                this.linea, this.columna);
+
+        }
+            
+        return lista_Vectores.get((int) resultado_Posicion1);
         
     }
 }

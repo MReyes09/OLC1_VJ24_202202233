@@ -8,6 +8,8 @@ import controller.Work_Table;
 import excepciones.Errores;
 import instrucciones.AsignacionVar;
 import instrucciones.Declaracion;
+import instrucciones.listas.Declaracion_LDinamicas;
+import instrucciones.struct.Declaracion_Struct;
 import instrucciones.subrutina.Execute;
 import instrucciones.subrutina.Metodo;
 import instrucciones.vectores.Declaracion_Vectores;
@@ -318,7 +320,8 @@ public class Ventana_Base extends javax.swing.JFrame {
                     continue;
                 }
                 
-                if ( a instanceof Declaracion || a instanceof AsignacionVar || a instanceof Declaracion_Vectores ) {
+                if ( a instanceof Declaracion || a instanceof AsignacionVar || a instanceof Declaracion_Vectores 
+                        || a instanceof Declaracion_LDinamicas || a instanceof Declaracion_Struct) {
                     var res = a.interpretar(ast, tabla);
                     if (res instanceof Errores){
                         lista.add((Errores) res);
@@ -340,14 +343,13 @@ public class Ventana_Base extends javax.swing.JFrame {
                 }
                 // START_WITH
             }
-            System.out.println("A ver");
             var resultadoExecute = e.interpretar(ast, tabla);
             if(resultadoExecute instanceof Errores) {
                 lista.add((Errores) resultadoExecute);
             }
             
             txt_Con.setText(ast.getConsola()+ "\n");
-
+            System.out.println("A ver");
             for (var res : lista) {
                 String error = "Error tipo: " + ((Errores) res).getTipo() + " " + ((Errores) res).getDescripcion()
                         + " fila: " +((Errores) res).getLinea()+ " columna: "+ ((Errores) res).getColumna();

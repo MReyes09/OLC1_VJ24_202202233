@@ -87,6 +87,19 @@ public class AsignacionVec extends Instruccion{
         
         int posicion_Y = (int)resu_F;
         
+        if( variable.getValor() instanceof ArrayList ){
+            ArrayList<Object> lista_Dinamica = (ArrayList<Object>)variable.getValor();
+            
+            if( lista_Dinamica.size() <= posicion_Y ){
+                String descripcion = "La posicion es mayor al tamaño de la fila";
+                return new Errores("SEMANTICA", descripcion,
+                    this.linea, this.columna);
+            }
+
+            lista_Dinamica.set(posicion_Y, newValor);
+            return null;
+        }
+        
         List<Object> lista_Vectores = (List<Object>)variable.getValor();
         
         if( lista_Vectores.size() <= posicion_Y ){
@@ -95,7 +108,7 @@ public class AsignacionVec extends Instruccion{
                 this.linea, this.columna);
         }
         
-        lista_Vectores.set(posicion_Y, newValor);        
+        lista_Vectores.set(posicion_Y, newValor);
         return null;
     }
     

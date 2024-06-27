@@ -11,6 +11,9 @@ import java.util.HashMap;
 
 //instrucciones
 import instrucciones.Print;
+import instrucciones.Round;
+import instrucciones.Length;
+import instrucciones.Find;
 import instrucciones.Declaracion;
 import instrucciones.AsignacionVar;
 import instrucciones.sentencias_Control.If;
@@ -26,6 +29,11 @@ import instrucciones.subrutina.Metodo;
 import instrucciones.subrutina.Execute;
 import instrucciones.vectores.Declaracion_Vectores;
 import instrucciones.vectores.AsignacionVec;
+import instrucciones.listas.Declaracion_LDinamicas;
+import instrucciones.listas.AsignacionLista;
+import instrucciones.listas.OperadoresLista;
+import instrucciones.subrutina.Llamada;
+import instrucciones.struct.Declaracion_Struct;
 
 //expresiones
 import expresiones.Nativo;
@@ -73,8 +81,8 @@ action code
 terminal String CADENA, ENTERO, DECIMAL, CHAR, ID_VARIABLE;
 terminal String TRUE, FALSE;
 terminal IMPRIMIR, TYPE_INT, TYPE_DOUBLE, TYPE_CHAR, TYPE_STRING, TYPE_BOOLEAN;
-terminal MAS, MENOS, MULT, DIV, POTENCIA, MODULO, INCREMENTO, DECREMENTO;
-terminal PAR1, PAR2, LLAV1, LLAV2, COR1, COR2, DEFAULT_MATCH;
+terminal MAS, MENOS, MULT, DIV, POTENCIA, MODULO, INCREMENTO, DECREMENTO, NEW, LIST;
+terminal PAR1, PAR2, LLAV1, LLAV2, COR1, COR2, DEFAULT_MATCH, PUNTO, APPEND, REMOVE, STRUCT;
 terminal UMENOS;
 
 terminal IGUAL, IGUAL_IGUAL, DIFERENTE_DE, MENOR_QUE, MENOR_IGUAL, MAYOR_QUE, MAYOR_IGUAL;
@@ -82,7 +90,7 @@ terminal OR, AND, XOR, NOT, FLECHA;
 terminal DOSPUNTOS, FINCADENA;
 terminal String BREAK;
 terminal CONST, VAR, IF, ELSE, MATCH, FOR, WHILE, DO, CONTINUE;
-terminal VOID, COMA, START_WITH;
+terminal VOID, COMA, START_WITH, ROUND, LENGTH, FIND;
 
 //no terminales
 nonterminal LinkedList<Instruccion> INICIO, INSTRUCCIONES;
@@ -99,11 +107,11 @@ nonterminal Instruccion EXPRESION;
 nonterminal Instruccion METODO;
 nonterminal LinkedList<HashMap> PARAMS;
 nonterminal Instruccion Start_WITH;
-nonterminal LinkedList<Instruccion> PARAMSCALL;
-nonterminal Instruccion DECLARACION_VECTORES;
+nonterminal LinkedList<Instruccion> PARAMSCALL, LISTA_DECLARACIONES;
+nonterminal Instruccion DECLARACION_VECTORES, DECLARACION_LISTASDIN, DECLARACION_STRUCT;
 nonterminal LinkedList<Instruccion> LISTAVALORES1;
 nonterminal LinkedList<LinkedList<Instruccion>> LISTAVALORES2;
-nonterminal Instruccion ASIGNACION_VECT;
+nonterminal Instruccion ASIGNACION_VECT,  ASIGNACION_LISTADIN, LLAMADA;
 
 precedence left OR;  // nivel 8, asociatividad izquierda
 precedence left AND;  // nivel 7, asociatividad izquierda
@@ -140,6 +148,10 @@ INSTRUCCION ::= IMPRESION:a                             {: RESULT = a; :}
             | Start_WITH:a                              {: RESULT = a; :}
             | DECLARACION_VECTORES:a                    {: RESULT = a; :}
             | ASIGNACION_VECT:a                         {: RESULT = a; :}
+            | DECLARACION_LISTASDIN:a                   {: RESULT = a; :}
+            | ASIGNACION_LISTADIN:a                     {: RESULT = a; :}
+            | LLAMADA:a                                 {: RESULT = a; :}
+            | DECLARACION_STRUCT:a                      {: RESULT = a; :}
             | error FINCADENA
             | error
 ;
@@ -149,6 +161,7 @@ IMPRESION ::= IMPRIMIR PAR1 EXPRESION:a PAR2 FINCADENA      {: RESULT = new Prin
 
 DECLARACION ::= MUTABILIDAD:d ID_VARIABLE:b DOSPUNTOS TIPOS:a IGUAL EXPRESION:c FINCADENA         {: RESULT = new Declaracion(d, b, c, a, aleft, aright); :}
             | MUTABILIDAD:d ID_VARIABLE:b DOSPUNTOS TIPOS:a FINCADENA                             {: RESULT = new Declaracion(d, b, a, aleft, aright); :}
+            | ID_VARIABLE:b DOSPUNTOS TIPOS:a FINCADENA                                           {: RESULT = new Declaracion(b, a, aleft, aright); :}
 ;
 
 //public Declaracion_Vectores(String identificador, LinkedList<Instruccion> valores1, LinkedList<Instruccion> valores2, boolean mutabilidad, Tipo tipo, int linea, int columna) {
@@ -160,6 +173,16 @@ DECLARACION_VECTORES ::= MUTABILIDAD:a ID_VARIABLE:b DOSPUNTOS TIPOS:c COR1 COR2
                 LinkedList<LinkedList<Instruccion>> valores_2D = d;
                 RESULT = new Declaracion_Vectores(b, null, valores_2D, a, c, aleft, aright);
             :}
+;
+
+DECLARACION_LISTASDIN ::= LIST MENOR_QUE TIPOS:a MAYOR_QUE ID_VARIABLE:b IGUAL NEW LIST PAR1 PAR2 FINCADENA     {: RESULT = new Declaracion_LDinamicas(b, a, aleft, aright); :}
+;
+
+DECLARACION_STRUCT ::= STRUCT LLAV1 LISTA_DECLARACIONES:a LLAV2 ID_VARIABLE:b FINCADENA                           {: RESULT = new Declaracion_Struct(b, a, aleft, aright); :}
+;
+
+LISTA_DECLARACIONES ::= LISTA_DECLARACIONES:a DECLARACION:b         {: RESULT = a; RESULT.add(b); :}
+                    | DECLARACION:a                                 {: RESULT = new LinkedList<>(); RESULT.add(a); :}
 ;
 
 LISTAVALORES1 ::= LISTAVALORES1:a COMA EXPRESION:b                  {: RESULT = a; RESULT.add(b); :}
@@ -181,6 +204,9 @@ ASIGNACION ::= ID_VARIABLE:a IGUAL EXPRESION:b FINCADENA         {: RESULT = new
 
 ASIGNACION_VECT ::= ID_VARIABLE:a COR1 EXPRESION:b COR2 IGUAL EXPRESION:c FINCADENA                             {: RESULT = new AsignacionVec(a, b, null, c, aleft, aright); :}
                   | ID_VARIABLE:a COR1 EXPRESION:b COR2 COR1 EXPRESION:c COR2 IGUAL EXPRESION:d FINCADENA       {: RESULT = new AsignacionVec(a, b, c, d, aleft, aright); :}
+;
+
+ASIGNACION_LISTADIN ::= ID_VARIABLE:a PUNTO APPEND PAR1 EXPRESION:b PAR2 FINCADENA      {: RESULT = new AsignacionLista(a, b, null, OperadoresLista.ADD, aleft, aright); :}
 ;
 
 TIPOS ::= TYPE_INT          {: RESULT = new Tipo(tipoDato.ENTERO); :}
@@ -253,6 +279,10 @@ Start_WITH ::= START_WITH ID_VARIABLE:a PAR1 PARAMSCALL:b PAR2 FINCADENA        
             |  START_WITH ID_VARIABLE:a PAR1 PAR2 FINCADENA                     {: RESULT = new Execute(a, new LinkedList<Instruccion>(), aleft, aright); :}
 ;
 
+LLAMADA ::= ID_VARIABLE:a PAR1 PARAMSCALL:b PAR2 FINCADENA          {: RESULT = new Llamada(a, b, aleft, aright); :}
+        | ID_VARIABLE:a PAR1 PAR2 FINCADENA                         {: RESULT = new Llamada(a, new LinkedList<Instruccion>(), aleft, aright); :}
+;
+
 PARAMSCALL ::= PARAMSCALL:a COMA EXPRESION:b          {: 
                                                         RESULT = a; 
                                                         RESULT.add(b);
@@ -294,4 +324,8 @@ EXPRESION ::= MENOS EXPRESION:a                     {: RESULT = new Aritmeticas(
             | ID_VARIABLE:a                         {: RESULT = new AccesoVar(a, aleft, aright); :}
             | ID_VARIABLE:a COR1 EXPRESION:b COR2   {: RESULT = new AccesoVec(a, b, null, aleft, aright);:}
             | ID_VARIABLE:a COR1 EXPRESION:b COR2 COR1 EXPRESION:c COR2     {: RESULT = new AccesoVec(a, b, c, aleft, aright);:}
+            | ID_VARIABLE:a PUNTO REMOVE PAR1 EXPRESION:b PAR2              {: RESULT = new AsignacionLista(a, null, b, OperadoresLista.REMOVE, aleft, aright); :}
+            | ROUND PAR1 EXPRESION:a PAR2                                   {: RESULT = new Round(a, aleft, aright); :}
+            | LENGTH PAR1 EXPRESION:a PAR2                                  {: RESULT = new Length(a, aleft, aright); :}
+            | ID_VARIABLE:a PUNTO FIND PAR1 EXPRESION:b PAR2                {: RESULT = new Find(b, a, aleft, aright); :}
 ;
