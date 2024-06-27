@@ -3,6 +3,7 @@ package simbolo;
 
 import abstracto.Instruccion;
 import excepciones.Errores;
+import instrucciones.struct.Declaracion_Struct;
 import instrucciones.subrutina.Metodo;
 import java.util.LinkedList;
 
@@ -80,6 +81,19 @@ public class Arbol {
                 }
             }
             
+        }
+        return null;
+    }
+    
+    public Instruccion get_Struct(String id) {
+        for( var instruccion: this.instrucciones ){
+            
+            if( instruccion instanceof Declaracion_Struct ){
+                if( ((Declaracion_Struct)instruccion).id.equalsIgnoreCase(id)) {
+                    return instruccion;
+                }
+            }
+                
         }
         return null;
     }

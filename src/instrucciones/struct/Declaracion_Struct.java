@@ -13,14 +13,14 @@ import instrucciones.Declaracion;
 
 public class Declaracion_Struct extends Instruccion{
     
-    private String id;
-    private LinkedList<Instruccion> declaraciones;
+    public String id;
+    public LinkedList<Instruccion> declaraciones;
     private boolean mutabilidad;
     private String bloque;
     private int conteo = 0;
 
     public Declaracion_Struct(String id, LinkedList<Instruccion> declaraciones, int linea, int columna) {
-        super(new Tipo(tipoDato.VOID), linea, columna);
+        super(new Tipo(tipoDato.STRUCT), linea, columna);
         this.id = id;
         this.declaraciones = declaraciones;
         this.mutabilidad = true;
@@ -29,7 +29,6 @@ public class Declaracion_Struct extends Instruccion{
 
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
-        
         
         if( this.declaraciones.size() != 0 && this.declaraciones != null ){
             conteo ++;
@@ -60,7 +59,6 @@ public class Declaracion_Struct extends Instruccion{
             if(!creacion) {
                 return new Errores("SEMANTICO", "Variable ya existente", this.linea, this.columna);
             }
-            view.Ventana_Base.tabla_Simbolos.add(s);
             
         }else{
             return new Errores("SEMANTICO", "El Struct: " + this.id + " se ha declarado sin variables", this.linea, this.columna);

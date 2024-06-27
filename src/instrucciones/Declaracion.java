@@ -3,6 +3,7 @@ package instrucciones;
 
 import abstracto.Instruccion;
 import excepciones.Errores;
+import instrucciones.struct.Declaracion_Struct;
 import simbolo.Arbol;
 import simbolo.Simbolo;
 import simbolo.Tipo;
@@ -12,6 +13,7 @@ import simbolo.tipoDato;
 public class Declaracion extends Instruccion{
 
     public String identificador;
+    public String identificador2;
     public Instruccion valor;
     public boolean mutabilidad;
     public String bloque;
@@ -34,13 +36,14 @@ public class Declaracion extends Instruccion{
         this.es_Struct = false;
     }
     
-    public Declaracion(String identificador, Tipo tipo, int linea, int columna) {
+    public Declaracion(String identificador, String identificador2, Tipo tipo, int linea, int columna) {
         super(tipo, linea, columna);
         this.identificador = identificador;
+        this.identificador2 = identificador2;
         this.mutabilidad = true;
         this.bloque = "";
         this.es_Struct = true;
-    }  
+    }
     
     
     @Override
@@ -86,6 +89,9 @@ public class Declaracion extends Instruccion{
                 case CADENA -> {
                     s = new Simbolo(this.tipo, identificador, "", this.mutabilidad, this.linea, this.columna);
                 }
+                case STRUCT -> {
+                   s = (Simbolo)this.caso_Struct(arbol, tabla);
+                }
                 default -> {
                     String texto = "Asignacion de tipo: " + this.tipo.getTipo() + " invalido";
                     return new Errores("SEMANTICO", texto, this.linea, this.columna);
@@ -105,6 +111,20 @@ public class Declaracion extends Instruccion{
             view.Ventana_Base.tabla_Simbolos.add(s);
         }
         
+        return null;
+    }
+    
+    private Object caso_Struct(Arbol arbol, tablaSimbolos tabla){
+        
+        //Validamos que exista la variable y sea tipo Struct
+        var busqueda = arbol.get_Struct(this.identificador2);
+        if( busqueda == null ){
+            return new Errores("SEMANTICO", "El struct " + this.identificador2 + " no existe" , this.linea, this.columna);
+        }
+        
+        if( busqueda instanceof Declaracion_Struct struct_Nuevo ){
+            
+        }
         return null;
     }
 

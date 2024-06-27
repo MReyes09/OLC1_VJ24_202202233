@@ -321,7 +321,7 @@ public class Ventana_Base extends javax.swing.JFrame {
                 }
                 
                 if ( a instanceof Declaracion || a instanceof AsignacionVar || a instanceof Declaracion_Vectores 
-                        || a instanceof Declaracion_LDinamicas || a instanceof Declaracion_Struct) {
+                        || a instanceof Declaracion_LDinamicas) {
                     var res = a.interpretar(ast, tabla);
                     if (res instanceof Errores){
                         lista.add((Errores) res);

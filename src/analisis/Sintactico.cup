@@ -8,6 +8,7 @@ import simbolo.Tipo;
 import simbolo.tipoDato;
 import excepciones.Errores;
 import java.util.HashMap;
+import java.util.ArrayList;
 
 //instrucciones
 import instrucciones.Print;
@@ -34,6 +35,7 @@ import instrucciones.listas.AsignacionLista;
 import instrucciones.listas.OperadoresLista;
 import instrucciones.subrutina.Llamada;
 import instrucciones.struct.Declaracion_Struct;
+import instrucciones.struct.Instancia_Struct;
 
 //expresiones
 import expresiones.Nativo;
@@ -111,7 +113,8 @@ nonterminal LinkedList<Instruccion> PARAMSCALL, LISTA_DECLARACIONES;
 nonterminal Instruccion DECLARACION_VECTORES, DECLARACION_LISTASDIN, DECLARACION_STRUCT;
 nonterminal LinkedList<Instruccion> LISTAVALORES1;
 nonterminal LinkedList<LinkedList<Instruccion>> LISTAVALORES2;
-nonterminal Instruccion ASIGNACION_VECT,  ASIGNACION_LISTADIN, LLAMADA;
+nonterminal Instruccion ASIGNACION_VECT,  ASIGNACION_LISTADIN, LLAMADA, INSTANCIA_STRUCT;
+nonterminal ArrayList<Object> VALORES_STRUCT;
 
 precedence left OR;  // nivel 8, asociatividad izquierda
 precedence left AND;  // nivel 7, asociatividad izquierda
@@ -152,6 +155,7 @@ INSTRUCCION ::= IMPRESION:a                             {: RESULT = a; :}
             | ASIGNACION_LISTADIN:a                     {: RESULT = a; :}
             | LLAMADA:a                                 {: RESULT = a; :}
             | DECLARACION_STRUCT:a                      {: RESULT = a; :}
+            | INSTANCIA_STRUCT:a                        {: RESULT = a; :}
             | error FINCADENA
             | error
 ;
@@ -162,6 +166,7 @@ IMPRESION ::= IMPRIMIR PAR1 EXPRESION:a PAR2 FINCADENA      {: RESULT = new Prin
 DECLARACION ::= MUTABILIDAD:d ID_VARIABLE:b DOSPUNTOS TIPOS:a IGUAL EXPRESION:c FINCADENA         {: RESULT = new Declaracion(d, b, c, a, aleft, aright); :}
             | MUTABILIDAD:d ID_VARIABLE:b DOSPUNTOS TIPOS:a FINCADENA                             {: RESULT = new Declaracion(d, b, a, aleft, aright); :}
             | ID_VARIABLE:b DOSPUNTOS TIPOS:a FINCADENA                                           {: RESULT = new Declaracion(b, a, aleft, aright); :}
+            | ID_VARIABLE:a DOSPUNTOS ID_VARIABLE:b FINCADENA                                     {: RESULT = new Declaracion(b, a, aleft, aright); :}
 ;
 
 //public Declaracion_Vectores(String identificador, LinkedList<Instruccion> valores1, LinkedList<Instruccion> valores2, boolean mutabilidad, Tipo tipo, int linea, int columna) {
@@ -179,6 +184,26 @@ DECLARACION_LISTASDIN ::= LIST MENOR_QUE TIPOS:a MAYOR_QUE ID_VARIABLE:b IGUAL N
 ;
 
 DECLARACION_STRUCT ::= STRUCT LLAV1 LISTA_DECLARACIONES:a LLAV2 ID_VARIABLE:b FINCADENA                           {: RESULT = new Declaracion_Struct(b, a, aleft, aright); :}
+;
+
+INSTANCIA_STRUCT ::= MUTABILIDAD:a ID_VARIABLE:b DOSPUNTOS ID_VARIABLE:c IGUAL LLAV1 VALORES_STRUCT:d LLAV2 FINCADENA   
+    {:
+        ArrayList<Object> lista_Separar = d;
+        LinkedList<String> variables_Struct = new LinkedList<>();
+        LinkedList<Instruccion> valores_Struct = new LinkedList<>();
+        for( int i = 0; i < lista_Separar.size(); i++ ){
+            if( i % 2 == 0 ){
+                variables_Struct.add( lista_Separar.get(i).toString() );
+            }else{
+                valores_Struct.add( (Instruccion) lista_Separar.get(i) );
+            }
+        }
+        RESULT = new Instancia_Struct(b, c, variables_Struct, valores_Struct, a, aleft, aright);
+    :}
+;
+
+VALORES_STRUCT ::= VALORES_STRUCT:a COMA ID_VARIABLE:b DOSPUNTOS EXPRESION:c        {: RESULT = a; RESULT.add(b); RESULT.add(c); :}
+        | ID_VARIABLE:a DOSPUNTOS EXPRESION:b                                       {: RESULT = new ArrayList<>(); RESULT.add(a); RESULT.add(b); :}
 ;
 
 LISTA_DECLARACIONES ::= LISTA_DECLARACIONES:a DECLARACION:b         {: RESULT = a; RESULT.add(b); :}
