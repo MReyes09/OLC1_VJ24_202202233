@@ -166,7 +166,7 @@ IMPRESION ::= IMPRIMIR PAR1 EXPRESION:a PAR2 FINCADENA      {: RESULT = new Prin
 DECLARACION ::= MUTABILIDAD:d ID_VARIABLE:b DOSPUNTOS TIPOS:a IGUAL EXPRESION:c FINCADENA         {: RESULT = new Declaracion(d, b, c, a, aleft, aright); :}
             | MUTABILIDAD:d ID_VARIABLE:b DOSPUNTOS TIPOS:a FINCADENA                             {: RESULT = new Declaracion(d, b, a, aleft, aright); :}
             | ID_VARIABLE:b DOSPUNTOS TIPOS:a FINCADENA                                           {: RESULT = new Declaracion(b, a, aleft, aright); :}
-            | ID_VARIABLE:a DOSPUNTOS ID_VARIABLE:b FINCADENA                                     {: RESULT = new Declaracion(b, a, aleft, aright); :}
+            | ID_VARIABLE:a DOSPUNTOS ID_VARIABLE:b FINCADENA                                     {: RESULT = new Declaracion(a, b, aleft, aright); :}
 ;
 
 //public Declaracion_Vectores(String identificador, LinkedList<Instruccion> valores1, LinkedList<Instruccion> valores2, boolean mutabilidad, Tipo tipo, int linea, int columna) {

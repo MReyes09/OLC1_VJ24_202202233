@@ -11,7 +11,7 @@ import simbolo.tablaSimbolos;
 import simbolo.tipoDato;
 import instrucciones.Declaracion;
 
-public class Declaracion_Struct extends Instruccion{
+public class Declaracion_Struct extends Instruccion implements Cloneable{
     
     public String id;
     public LinkedList<Instruccion> declaraciones;
@@ -72,6 +72,14 @@ public class Declaracion_Struct extends Instruccion{
 
     public void setBloque(String bloque) {
         this.bloque = bloque;
+    }
+    
+    // Implementación del método clone
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        Declaracion_Struct cloned = (Declaracion_Struct) super.clone();
+        cloned.declaraciones = new LinkedList<>(this.declaraciones); // Clonar la lista de declaraciones
+        return cloned;
     }
     
 }
