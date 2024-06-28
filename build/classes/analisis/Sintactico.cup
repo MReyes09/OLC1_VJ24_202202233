@@ -36,6 +36,7 @@ import instrucciones.listas.OperadoresLista;
 import instrucciones.subrutina.Llamada;
 import instrucciones.struct.Declaracion_Struct;
 import instrucciones.struct.Instancia_Struct;
+import instrucciones.struct.Asignacion_Struct;
 
 //expresiones
 import expresiones.Nativo;
@@ -50,6 +51,7 @@ import expresiones.casteo.OperadoresCasteo;
 import expresiones.variable.AccesoVar;
 import expresiones.variable.OperadoresVariable;
 import expresiones.vectores.AccesoVec;
+import expresiones.struct.AccesoStruct;
 
 // parser
 parser code
@@ -115,6 +117,7 @@ nonterminal LinkedList<Instruccion> LISTAVALORES1;
 nonterminal LinkedList<LinkedList<Instruccion>> LISTAVALORES2;
 nonterminal Instruccion ASIGNACION_VECT,  ASIGNACION_LISTADIN, LLAMADA, INSTANCIA_STRUCT;
 nonterminal ArrayList<Object> VALORES_STRUCT;
+nonterminal Instruccion ASIGNACION_STRUCT;
 
 precedence left OR;  // nivel 8, asociatividad izquierda
 precedence left AND;  // nivel 7, asociatividad izquierda
@@ -156,6 +159,7 @@ INSTRUCCION ::= IMPRESION:a                             {: RESULT = a; :}
             | LLAMADA:a                                 {: RESULT = a; :}
             | DECLARACION_STRUCT:a                      {: RESULT = a; :}
             | INSTANCIA_STRUCT:a                        {: RESULT = a; :}
+            | ASIGNACION_STRUCT:a                        {: RESULT = a; :}
             | error FINCADENA
             | error
 ;
@@ -232,6 +236,25 @@ ASIGNACION_VECT ::= ID_VARIABLE:a COR1 EXPRESION:b COR2 IGUAL EXPRESION:c FINCAD
 ;
 
 ASIGNACION_LISTADIN ::= ID_VARIABLE:a PUNTO APPEND PAR1 EXPRESION:b PAR2 FINCADENA      {: RESULT = new AsignacionLista(a, b, null, OperadoresLista.ADD, aleft, aright); :}
+;
+
+ASIGNACION_STRUCT ::= ID_VARIABLE:a PUNTO ID_VARIABLE:b IGUAL EXPRESION:c FINCADENA   
+    {:
+        ArrayList<String> lista_ids = new ArrayList<>();
+        lista_ids.add(a);
+        lista_ids.add(b);
+
+        RESULT = new Asignacion_Struct(lista_ids, c, aleft, aright);
+    :}
+    |ID_VARIABLE:a PUNTO ID_VARIABLE:b PUNTO ID_VARIABLE:c IGUAL EXPRESION:d FINCADENA
+    {:
+        ArrayList<String> lista_ids = new ArrayList<>();
+        lista_ids.add(a);
+        lista_ids.add(b);
+        lista_ids.add(c);
+
+        RESULT = new Asignacion_Struct(lista_ids, d, aleft, aright);
+    :}
 ;
 
 TIPOS ::= TYPE_INT          {: RESULT = new Tipo(tipoDato.ENTERO); :}
@@ -353,4 +376,21 @@ EXPRESION ::= MENOS EXPRESION:a                     {: RESULT = new Aritmeticas(
             | ROUND PAR1 EXPRESION:a PAR2                                   {: RESULT = new Round(a, aleft, aright); :}
             | LENGTH PAR1 EXPRESION:a PAR2                                  {: RESULT = new Length(a, aleft, aright); :}
             | ID_VARIABLE:a PUNTO FIND PAR1 EXPRESION:b PAR2                {: RESULT = new Find(b, a, aleft, aright); :}
+            | ID_VARIABLE:a PUNTO ID_VARIABLE:b
+            {:
+                ArrayList<String> lista_ids = new ArrayList<>();
+                lista_ids.add(a);
+                lista_ids.add(b);
+
+                RESULT = new AccesoStruct(lista_ids, aleft, aright);
+            :}
+            | ID_VARIABLE:a PUNTO ID_VARIABLE:b PUNTO ID_VARIABLE:c
+            {:
+                ArrayList<String> lista_ids = new ArrayList<>();
+                lista_ids.add(a);
+                lista_ids.add(b);
+                lista_ids.add(c);
+
+                RESULT = new AccesoStruct(lista_ids, aleft, aright);
+            :}
 ;

@@ -1,22 +1,23 @@
 
-package expresiones.struct;
+package instrucciones.struct;
 
 import abstracto.Instruccion;
 import excepciones.Errores;
 import java.util.ArrayList;
 import simbolo.Arbol;
-import simbolo.Simbolo;
 import simbolo.Tipo;
 import simbolo.tablaSimbolos;
 import simbolo.tipoDato;
 
-public class AccesoStruct extends Instruccion{
+public class Asignacion_Struct extends Instruccion{
     
     private ArrayList<String> lista_ids;
+    private Instruccion expresion;
 
-    public AccesoStruct(ArrayList<String> id, int linea, int columna) {
-        super(new Tipo(tipoDato.VOID), linea, columna);
-        this.lista_ids = id;
+    public Asignacion_Struct(ArrayList<String> lista_ids, Instruccion expresion, int linea, int columna) {
+        super(new Tipo(tipoDato.ENTERO), linea, columna);
+        this.lista_ids = lista_ids;
+        this.expresion = expresion;
     }
 
     @Override
@@ -41,9 +42,15 @@ public class AccesoStruct extends Instruccion{
                     continue;
 
                 }
-                this.tipo.setTipo(valor.getTipo().getTipo());
-                return valor.getValor();
-                
+                var valor_Nuevo = this.expresion.interpretar(arbol, tabla);
+                if( valor_Nuevo == null ){
+                    return new Errores("SEMANTICA", "No se ha podido interpretar el valor nuevo",
+                        this.linea, this.columna);
+                }else if( valor_Nuevo instanceof Errores ){
+                    return valor_Nuevo;
+                }
+                valor.setValor(valor_Nuevo);
+                return null;
             }
             
             var valor = tabla.getVariable(variable);
@@ -56,11 +63,10 @@ public class AccesoStruct extends Instruccion{
             if( valor.getTipo().getTipo() == tipoDato.STRUCT ){
                 
                 secuencia_Struct = (tablaSimbolos)valor.getValor();
+                this.tipo.setTipo(tipoDato.STRUCT);
                 continue;
                 
             }
-            this.tipo.setTipo(valor.getTipo().getTipo());
-            return valor.getValor();
             
         }
         
