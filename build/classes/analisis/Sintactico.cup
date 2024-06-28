@@ -15,6 +15,7 @@ import instrucciones.Print;
 import instrucciones.Round;
 import instrucciones.Length;
 import instrucciones.Find;
+import instrucciones.ToString;
 import instrucciones.Declaracion;
 import instrucciones.AsignacionVar;
 import instrucciones.sentencias_Control.If;
@@ -86,7 +87,7 @@ terminal String CADENA, ENTERO, DECIMAL, CHAR, ID_VARIABLE;
 terminal String TRUE, FALSE;
 terminal IMPRIMIR, TYPE_INT, TYPE_DOUBLE, TYPE_CHAR, TYPE_STRING, TYPE_BOOLEAN;
 terminal MAS, MENOS, MULT, DIV, POTENCIA, MODULO, INCREMENTO, DECREMENTO, NEW, LIST;
-terminal PAR1, PAR2, LLAV1, LLAV2, COR1, COR2, DEFAULT_MATCH, PUNTO, APPEND, REMOVE, STRUCT;
+terminal PAR1, PAR2, LLAV1, LLAV2, COR1, COR2, DEFAULT_MATCH, PUNTO, APPEND, REMOVE, STRUCT, TOSTRING;
 terminal UMENOS;
 
 terminal IGUAL, IGUAL_IGUAL, DIFERENTE_DE, MENOR_QUE, MENOR_IGUAL, MAYOR_QUE, MAYOR_IGUAL;
@@ -375,6 +376,7 @@ EXPRESION ::= MENOS EXPRESION:a                     {: RESULT = new Aritmeticas(
             | ID_VARIABLE:a PUNTO REMOVE PAR1 EXPRESION:b PAR2              {: RESULT = new AsignacionLista(a, null, b, OperadoresLista.REMOVE, aleft, aright); :}
             | ROUND PAR1 EXPRESION:a PAR2                                   {: RESULT = new Round(a, aleft, aright); :}
             | LENGTH PAR1 EXPRESION:a PAR2                                  {: RESULT = new Length(a, aleft, aright); :}
+            | TOSTRING PAR1 EXPRESION:a PAR2                                {: RESULT = new ToString(a, aleft, aright); :}
             | ID_VARIABLE:a PUNTO FIND PAR1 EXPRESION:b PAR2                {: RESULT = new Find(b, a, aleft, aright); :}
             | ID_VARIABLE:a PUNTO ID_VARIABLE:b
             {:

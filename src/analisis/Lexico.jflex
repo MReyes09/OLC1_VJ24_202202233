@@ -124,6 +124,7 @@ STRUCT = "struct"
 ROUND = "round"
 LENGTH = "length"
 FIND = "find"
+TOSTRING = "toString"
 
 %%
 // Simbolos estructurales
@@ -165,6 +166,7 @@ FIND = "find"
 <YYINITIAL> {ROUND}                 {return new Symbol(sym.ROUND, yyline, yycolumn, yytext());}
 <YYINITIAL> {LENGTH}                {return new Symbol(sym.LENGTH, yyline, yycolumn, yytext());}
 <YYINITIAL> {FIND}                  {return new Symbol(sym.FIND, yyline, yycolumn, yytext());}
+<YYINITIAL> {TOSTRING}              {return new Symbol(sym.TOSTRING, yyline, yycolumn, yytext());}
 
 // Expresiones regulares
 <YYINITIAL> {DECIMAL}   {return new Symbol(sym.DECIMAL, yyline, yycolumn,yytext());}
