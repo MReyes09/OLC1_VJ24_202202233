@@ -4,6 +4,7 @@ package instrucciones.sentencias_Control;
 import abstracto.Instruccion;
 import excepciones.Errores;
 import instrucciones.Declaracion;
+import instrucciones.subrutina.Return;
 import java.util.LinkedList;
 import simbolo.Arbol;
 import simbolo.Tipo;
@@ -60,7 +61,17 @@ public class Match extends Instruccion{
             if(instruccion == null) {
                 return null;
             }
+            if(instruccion instanceof Return){
+                var result = instruccion.interpretar(arbol, tabla);
+                this.tipo.setTipo(instruccion.tipo.getTipo());
+                return result;
+            }            
+            
             var result = instruccion.interpretar(arbol, tabla);
+            if( result != null ){
+                return result;
+            }
+            
             if(result instanceof Errores){
                 return result;
             }

@@ -70,6 +70,11 @@ public class If extends Instruccion{
                 }
                     
                 var resultado = i.interpretar(arbol, newTabla);
+                
+                if( resultado != null) {
+                    return resultado;
+                }
+                
                 if (resultado instanceof Break) {
                     return resultado;
                 }
