@@ -6,6 +6,7 @@ import excepciones.Errores;
 import instrucciones.Declaracion;
 import instrucciones.sentencias_Transferencia.Break;
 import instrucciones.sentencias_Transferencia.Continue;
+import instrucciones.subrutina.Return;
 import java.util.LinkedList;
 import simbolo.Arbol;
 import simbolo.Tipo;
@@ -71,6 +72,12 @@ public class For extends Instruccion{
                     break;
                 }
                 
+                if(i instanceof Return){
+                    var resInst = i.interpretar(arbol, newTabla2);
+                    this.tipo.setTipo(i.tipo.getTipo());
+                    return resInst;
+                }
+                
                 var resIns = i.interpretar(arbol, newTabla2);
                 if (resIns instanceof Break) {
                     return null;
@@ -80,6 +87,11 @@ public class For extends Instruccion{
                 }
                 if (resIns instanceof Continue){
                     break;
+                }
+                
+                if(resIns != null) {
+                    this.tipo.setTipo(i.tipo.getTipo());
+                    return resIns;
                 }
             }
             
