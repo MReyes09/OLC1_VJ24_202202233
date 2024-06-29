@@ -64,7 +64,7 @@ public class Declaracion extends Instruccion{
 
             if(this.valor.tipo.getTipo() != this.tipo.getTipo()) {
                 String descripcion = "Se intenta asignar el tipo: " + this.valor.tipo.getTipo() 
-                        + "A una variable de tipo: " + this.tipo.getTipo(); 
+                        + " a una variable de tipo: " + this.tipo.getTipo(); 
                 return new Errores("SEMANTICO", descripcion, this.linea, this.columna);
             }
 

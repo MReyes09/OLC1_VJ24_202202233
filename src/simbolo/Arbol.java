@@ -4,6 +4,7 @@ package simbolo;
 import abstracto.Instruccion;
 import excepciones.Errores;
 import instrucciones.struct.Declaracion_Struct;
+import instrucciones.subrutina.Funcion;
 import instrucciones.subrutina.Metodo;
 import java.util.LinkedList;
 
@@ -77,6 +78,10 @@ public class Arbol {
             
             if ( instruccion instanceof Metodo ) {
                 if( ((Metodo)instruccion).id.equalsIgnoreCase(id) ) {
+                    return instruccion;
+                }
+            } else if ( instruccion instanceof Funcion ){
+                if( ((Funcion)instruccion).id.equalsIgnoreCase(id) ){
                     return instruccion;
                 }
             }

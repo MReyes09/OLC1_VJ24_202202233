@@ -9,8 +9,8 @@ import excepciones.Errores;
 import instrucciones.AsignacionVar;
 import instrucciones.Declaracion;
 import instrucciones.listas.Declaracion_LDinamicas;
-import instrucciones.struct.Declaracion_Struct;
 import instrucciones.subrutina.Execute;
+import instrucciones.subrutina.Funcion;
 import instrucciones.subrutina.Metodo;
 import instrucciones.vectores.Declaracion_Vectores;
 import java.io.BufferedReader;
@@ -308,7 +308,7 @@ public class Ventana_Base extends javax.swing.JFrame {
                     continue;
                 }
                 
-                if ( a instanceof Metodo) {
+                if ( a instanceof Metodo || a instanceof Funcion) {
                     ast.addFunciones(a);
                 }
                 // Metodos -> Funciones y Structs

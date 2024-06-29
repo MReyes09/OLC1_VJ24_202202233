@@ -8,7 +8,7 @@ package analisis;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int DOSPUNTOS = 50;
+  public static final int DOSPUNTOS = 51;
   public static final int PAR2 = 26;
   public static final int PAR1 = 25;
   public static final int TYPE_BOOLEAN = 14;
@@ -16,65 +16,66 @@ public class sym {
   public static final int MULT = 17;
   public static final int COR1 = 29;
   public static final int TYPE_DOUBLE = 11;
-  public static final int CONST = 53;
+  public static final int CONST = 54;
   public static final int CHAR = 5;
-  public static final int FIND = 67;
+  public static final int FIND = 68;
   public static final int REMOVE = 34;
   public static final int IMPRIMIR = 9;
   public static final int ENTERO = 3;
-  public static final int XOR = 47;
-  public static final int CONTINUE = 61;
+  public static final int XOR = 48;
+  public static final int CONTINUE = 62;
   public static final int ID_VARIABLE = 6;
-  public static final int FOR = 58;
-  public static final int MATCH = 57;
+  public static final int FOR = 59;
+  public static final int MATCH = 58;
   public static final int LLAV2 = 28;
   public static final int LLAV1 = 27;
-  public static final int FINCADENA = 51;
-  public static final int NOT = 48;
-  public static final int AND = 46;
-  public static final int IGUAL = 38;
+  public static final int FINCADENA = 52;
+  public static final int NOT = 49;
+  public static final int AND = 47;
+  public static final int IGUAL = 39;
   public static final int APPEND = 33;
-  public static final int OR = 45;
+  public static final int OR = 46;
   public static final int DIV = 18;
   public static final int INCREMENTO = 21;
   public static final int TYPE_INT = 10;
-  public static final int IF = 55;
+  public static final int IF = 56;
   public static final int UMENOS = 37;
-  public static final int IGUAL_IGUAL = 39;
+  public static final int IGUAL_IGUAL = 40;
   public static final int EOF = 0;
   public static final int DECIMAL = 4;
+  public static final int RETURN = 38;
   public static final int TRUE = 7;
   public static final int DECREMENTO = 22;
   public static final int NEW = 23;
   public static final int error = 1;
-  public static final int COMA = 63;
+  public static final int COMA = 64;
   public static final int CADENA = 2;
   public static final int DEFAULT_MATCH = 31;
   public static final int MODULO = 20;
   public static final int MENOS = 16;
-  public static final int MAYOR_QUE = 43;
-  public static final int BREAK = 52;
+  public static final int MAYOR_QUE = 44;
+  public static final int BREAK = 53;
   public static final int TOSTRING = 36;
-  public static final int VOID = 62;
+  public static final int VOID = 63;
   public static final int TYPE_CHAR = 12;
   public static final int POTENCIA = 19;
-  public static final int FLECHA = 49;
-  public static final int DIFERENTE_DE = 40;
-  public static final int ELSE = 56;
+  public static final int FLECHA = 50;
+  public static final int DIFERENTE_DE = 41;
+  public static final int ELSE = 57;
   public static final int PUNTO = 32;
   public static final int TYPE_STRING = 13;
-  public static final int START_WITH = 64;
-  public static final int WHILE = 59;
+  public static final int START_WITH = 65;
+  public static final int WHILE = 60;
   public static final int LIST = 24;
-  public static final int MAYOR_IGUAL = 44;
-  public static final int MENOR_QUE = 41;
-  public static final int MENOR_IGUAL = 42;
+  public static final int MAYOR_IGUAL = 45;
+  public static final int MENOR_QUE = 42;
+  public static final int MENOR_IGUAL = 43;
   public static final int FALSE = 8;
   public static final int STRUCT = 35;
-  public static final int VAR = 54;
-  public static final int LENGTH = 66;
-  public static final int ROUND = 65;
-  public static final int DO = 60;
+  public static final int VAR = 55;
+  public static final int LENGTH = 67;
+  public static final int ROUND = 66;
+  public static final int DO = 61;
   public static final int MAS = 15;
   public static final String[] terminalNames = new String[] {
   "EOF",
@@ -115,6 +116,7 @@ public class sym {
   "STRUCT",
   "TOSTRING",
   "UMENOS",
+  "RETURN",
   "IGUAL",
   "IGUAL_IGUAL",
   "DIFERENTE_DE",

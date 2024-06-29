@@ -28,7 +28,9 @@ import instrucciones.sentencias_Ciclicas.Do_While;
 import instrucciones.sentencias_Transferencia.Break;
 import instrucciones.sentencias_Transferencia.Continue;
 import instrucciones.subrutina.Metodo;
+import instrucciones.subrutina.Funcion;
 import instrucciones.subrutina.Execute;
+import instrucciones.subrutina.Return;
 import instrucciones.vectores.Declaracion_Vectores;
 import instrucciones.vectores.AsignacionVec;
 import instrucciones.listas.Declaracion_LDinamicas;
@@ -88,7 +90,7 @@ terminal String TRUE, FALSE;
 terminal IMPRIMIR, TYPE_INT, TYPE_DOUBLE, TYPE_CHAR, TYPE_STRING, TYPE_BOOLEAN;
 terminal MAS, MENOS, MULT, DIV, POTENCIA, MODULO, INCREMENTO, DECREMENTO, NEW, LIST;
 terminal PAR1, PAR2, LLAV1, LLAV2, COR1, COR2, DEFAULT_MATCH, PUNTO, APPEND, REMOVE, STRUCT, TOSTRING;
-terminal UMENOS;
+terminal UMENOS, RETURN;
 
 terminal IGUAL, IGUAL_IGUAL, DIFERENTE_DE, MENOR_QUE, MENOR_IGUAL, MAYOR_QUE, MAYOR_IGUAL;
 terminal OR, AND, XOR, NOT, FLECHA;
@@ -118,7 +120,7 @@ nonterminal LinkedList<Instruccion> LISTAVALORES1;
 nonterminal LinkedList<LinkedList<Instruccion>> LISTAVALORES2;
 nonterminal Instruccion ASIGNACION_VECT,  ASIGNACION_LISTADIN, LLAMADA, INSTANCIA_STRUCT;
 nonterminal ArrayList<Object> VALORES_STRUCT;
-nonterminal Instruccion ASIGNACION_STRUCT;
+nonterminal Instruccion ASIGNACION_STRUCT, RETURN_FUNCION;
 
 precedence left OR;  // nivel 8, asociatividad izquierda
 precedence left AND;  // nivel 7, asociatividad izquierda
@@ -160,7 +162,8 @@ INSTRUCCION ::= IMPRESION:a                             {: RESULT = a; :}
             | LLAMADA:a                                 {: RESULT = a; :}
             | DECLARACION_STRUCT:a                      {: RESULT = a; :}
             | INSTANCIA_STRUCT:a                        {: RESULT = a; :}
-            | ASIGNACION_STRUCT:a                        {: RESULT = a; :}
+            | ASIGNACION_STRUCT:a                       {: RESULT = a; :}
+            | RETURN_FUNCION:a                          {: RESULT = a; :}
             | error FINCADENA
             | error
 ;
@@ -304,9 +307,27 @@ CDO_WHILE ::= DO LLAV1 INSTRUCCIONES:a LLAV2 WHILE PAR1 EXPRESION:b PAR2 FINCADE
 ;
 
 // AGREGADO DE LA FASE 2
-METODO ::= TIPOS:a ID_VARIABLE:b PAR1 PARAMS:p PAR2 LLAV1 INSTRUCCIONES:c LLAV2     {: RESULT = new Metodo(b, p, c, a, aleft, aright); :}
-        | TIPOS:a ID_VARIABLE:b PAR1 PAR2 LLAV1 INSTRUCCIONES:c LLAV2               {: RESULT = new Metodo(b, new LinkedList<HashMap>(), c, a, aleft, aright); :}
-; 
+METODO ::= TIPOS:a ID_VARIABLE:b PAR1 PARAMS:p PAR2 LLAV1 INSTRUCCIONES:c LLAV2     
+{: 
+    if( a.getTipo() == tipoDato.VOID ){
+        RESULT = new Metodo(b, p, c, a, aleft, aright);
+    }else{
+        RESULT = new Funcion(b, p, c, a, aleft, aright);
+    }
+:}
+        | TIPOS:a ID_VARIABLE:b PAR1 PAR2 LLAV1 INSTRUCCIONES:c LLAV2
+{: 
+    if( a.getTipo() == tipoDato.VOID ){
+        RESULT = new Metodo(b, new LinkedList<HashMap>(), c, a, aleft, aright);
+    }else{
+        RESULT = new Funcion(b, new LinkedList<HashMap>(), c, a, aleft, aright);
+}
+:}
+;
+
+RETURN_FUNCION ::= RETURN EXPRESION:a FINCADENA         {: RESULT = new Return(a, aleft, aright); :}
+        | RETURN:a FINCADENA                            {: RESULT = new Return(null, aleft, aright); :}
+;
 
 PARAMS ::= PARAMS:a COMA TIPOS:b ID_VARIABLE:c              {: 
                                                                 RESULT = a;
@@ -370,6 +391,8 @@ EXPRESION ::= MENOS EXPRESION:a                     {: RESULT = new Aritmeticas(
             | TRUE:a                                {: RESULT = new Nativo(Boolean.parseBoolean(a), new Tipo(tipoDato.BOOLEANO), aleft, aright); :}
             | FALSE:a                               {: RESULT = new Nativo(Boolean.parseBoolean(a), new Tipo(tipoDato.BOOLEANO), aleft, aright); :}
             | CHAR:a                                {: RESULT = new Nativo(a.charAt(1), new Tipo(tipoDato.CARACTER), aleft, aright); :}
+            | ID_VARIABLE:a PAR1 PARAMSCALL:b PAR2  {: RESULT = new Llamada(a, b, aleft, aright); :}
+            | ID_VARIABLE:a PAR1 PAR2 FINCADENA     {: RESULT = new Llamada(a, new LinkedList<Instruccion>(), aleft, aright); :}
             | ID_VARIABLE:a                         {: RESULT = new AccesoVar(a, aleft, aright); :}
             | ID_VARIABLE:a COR1 EXPRESION:b COR2   {: RESULT = new AccesoVec(a, b, null, aleft, aright);:}
             | ID_VARIABLE:a COR1 EXPRESION:b COR2 COR1 EXPRESION:c COR2     {: RESULT = new AccesoVec(a, b, c, aleft, aright);:}
