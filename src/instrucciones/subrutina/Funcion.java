@@ -35,21 +35,25 @@ public class Funcion extends Instruccion{
             
             var resultado = instruccion.interpretar(arbol, tabla);
             
-            if( instruccion instanceof Return ){
-                if( this.tipo.getTipo() != ((Return) instruccion).tipo.getTipo() ){
-                    return new Errores("SEMANTICO", "El resultado del return no corresponde al tipo esperado", this.linea, this.columna);
-                }
-                if ( resultado instanceof Errores ) {
-                    return resultado;
-                }
-//                ArrayList<Object> lista_Funcion_Return = new ArrayList<>();
-//                lista_Funcion_Return.add(resultado);
-//                lista_Funcion_Return.add(instruccion);
+            if( resultado != null ){
                 return resultado;
             }
             
             if ( resultado instanceof Errores ) {
                 return resultado;
+            }
+            if( resultado instanceof Return ){
+                
+                var res = ((Return) resultado).interpretar(arbol, tabla);
+                
+                if( this.tipo.getTipo() != ((Return) resultado).tipo.getTipo() ){
+                    return new Errores("SEMANTICO", "El resultado del return no corresponde al tipo esperado", this.linea, this.columna);
+                }
+                
+                if( res instanceof Errores){
+                    return res;
+                }
+                return res;
             }
         }
         return null;

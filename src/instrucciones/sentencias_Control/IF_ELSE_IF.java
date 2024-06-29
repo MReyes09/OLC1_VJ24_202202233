@@ -6,6 +6,7 @@ import excepciones.Errores;
 import instrucciones.Declaracion;
 import instrucciones.sentencias_Transferencia.Break;
 import instrucciones.sentencias_Transferencia.Continue;
+import instrucciones.subrutina.Return;
 import java.util.LinkedList;
 import simbolo.Arbol;
 import simbolo.Tipo;
@@ -56,6 +57,11 @@ public class IF_ELSE_IF extends Instruccion{
                 if (i instanceof Break) {
                     return i;
                 }
+                if( i instanceof Return ){
+                    var resultado = i.interpretar(arbol, newTabla);
+                    this.tipo.setTipo(i.tipo.getTipo());
+                    return resultado;
+                }
                 
                 var resultado = i.interpretar(arbol, newTabla);
                 if (resultado instanceof Break) {
@@ -67,10 +73,20 @@ public class IF_ELSE_IF extends Instruccion{
                 if (resultado instanceof Continue) {
                     return resultado;
                 }
+                if( resultado instanceof Return ){
+                    var res = ((Return) resultado).interpretar(arbol, newTabla);
+                    this.tipo.setTipo(((Return)resultado).tipo.getTipo());
+                    return res;
+                }
             }
         }else{
             if(this.instruccion_IF != null){
-                var resultado = this.instruccion_IF.interpretar(arbol, tabla);
+                
+                var resultado = this.instruccion_IF.interpretar(arbol, newTabla);
+                
+                if( resultado != null ){
+                    return resultado;
+                }
                 
                 if (resultado instanceof Errores) {
                     return resultado;
@@ -80,6 +96,11 @@ public class IF_ELSE_IF extends Instruccion{
                 }
                 if (resultado instanceof Continue) {
                     return resultado;
+                }
+                if( resultado instanceof Return ){
+                    var res = ((Return) resultado).interpretar(arbol, newTabla);
+                    this.tipo.setTipo(((Return)resultado).tipo.getTipo());
+                    return res;
                 }
             }
         }

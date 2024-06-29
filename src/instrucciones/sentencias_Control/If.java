@@ -11,6 +11,7 @@ import simbolo.Tipo;
 import simbolo.tablaSimbolos;
 import simbolo.tipoDato;
 import instrucciones.Declaracion;
+import instrucciones.subrutina.Return;
 
 public class If extends Instruccion{
 
@@ -62,6 +63,12 @@ public class If extends Instruccion{
                 if (i instanceof Break) {
                     return i;
                 }
+                if( i instanceof Return ){
+                    var resultado = i.interpretar(arbol, newTabla);
+                    this.tipo.setTipo(i.tipo.getTipo());
+                    return resultado;
+                }
+                    
                 var resultado = i.interpretar(arbol, newTabla);
                 if (resultado instanceof Break) {
                     return resultado;
@@ -69,6 +76,13 @@ public class If extends Instruccion{
                 if (resultado instanceof Continue) {
                     return resultado;
                 }
+                
+                if( resultado instanceof Return ){
+                    var res = ((Return) resultado).interpretar(arbol, newTabla);
+                    this.tipo.setTipo(i.tipo.getTipo());
+                    return res;
+                }
+                
                 if (resultado instanceof Errores) {
                     return resultado;
                 }
@@ -86,6 +100,11 @@ public class If extends Instruccion{
                     if (instruccion instanceof Continue) {
                         return instruccion;
                     }
+                    if( instruccion instanceof Return ){
+                        var res = instruccion.interpretar(arbol, newTabla);
+                        return res;
+                    }
+                    
                     var resultado = instruccion.interpretar(arbol, newTabla);
                     if (resultado instanceof Break) {
                         return resultado;
@@ -95,6 +114,10 @@ public class If extends Instruccion{
                     }
                     if (resultado instanceof Continue) {
                         return resultado;
+                    }
+                    if( resultado instanceof Return ){
+                        var res = ((Return) resultado).interpretar(arbol, newTabla);
+                        return res;
                     }
                 }
             }
