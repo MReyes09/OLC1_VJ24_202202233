@@ -57,7 +57,10 @@ public class IF_ELSE_IF extends Instruccion{
                 if (i instanceof Break) {
                     return i;
                 }
-                if( i instanceof Return ){
+                if( i instanceof Return posible){
+                    if( posible.expresion == null ){
+                        return i;
+                    }
                     var resultado = i.interpretar(arbol, newTabla);
                     this.tipo.setTipo(i.tipo.getTipo());
                     return resultado;
@@ -73,7 +76,10 @@ public class IF_ELSE_IF extends Instruccion{
                 if (resultado instanceof Continue) {
                     return resultado;
                 }
-                if( resultado instanceof Return ){
+                if( resultado instanceof Return posible){
+                    if( posible.expresion == null ){
+                        return resultado;
+                    }
                     var res = ((Return) resultado).interpretar(arbol, newTabla);
                     this.tipo.setTipo(((Return)resultado).tipo.getTipo());
                     return res;
@@ -97,7 +103,10 @@ public class IF_ELSE_IF extends Instruccion{
                 if (resultado instanceof Continue) {
                     return resultado;
                 }
-                if( resultado instanceof Return ){
+                if( resultado instanceof Return posible ){
+                    if( posible.expresion == null ){
+                        return resultado;
+                    }
                     var res = ((Return) resultado).interpretar(arbol, newTabla);
                     this.tipo.setTipo(((Return)resultado).tipo.getTipo());
                     return res;

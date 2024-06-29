@@ -10,7 +10,7 @@ import simbolo.tipoDato;
 
 public class Return extends Instruccion{
     
-    private Instruccion expresion;
+    public Instruccion expresion;
 
     public Return(Instruccion expresion, int linea, int columna) {
         super(new Tipo(tipoDato.ENTERO), linea, columna);

@@ -60,7 +60,10 @@ public class While extends Instruccion{
                     break;
                 }
                 
-                if(i instanceof Return){
+                if(i instanceof Return posible){
+                    if( posible.expresion == null ){
+                        return i;
+                    }
                     var resInst = i.interpretar(arbol, newTabla2);
                     this.tipo.setTipo(i.tipo.getTipo());
                     return resInst;
@@ -80,6 +83,18 @@ public class While extends Instruccion{
                 if(resIns != null) {
                     this.tipo.setTipo(i.tipo.getTipo());
                     return resIns;
+                }
+                if(resIns != null) {
+                    this.tipo.setTipo(i.tipo.getTipo());
+                    return resIns;
+                }
+                if( resIns instanceof Return posible){
+                    if( posible.expresion == null ){
+                        return resIns;
+                    }
+                    var res = ((Return) resIns).interpretar(arbol, newTabla2);
+                    this.tipo.setTipo(i.tipo.getTipo());
+                    return res;
                 }
             }
         }

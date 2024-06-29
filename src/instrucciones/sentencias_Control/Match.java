@@ -61,7 +61,10 @@ public class Match extends Instruccion{
             if(instruccion == null) {
                 return null;
             }
-            if(instruccion instanceof Return){
+            if(instruccion instanceof Return posible ){
+                if( posible.expresion == null ){
+                    return instruccion;
+                }
                 var result = instruccion.interpretar(arbol, tabla);
                 this.tipo.setTipo(instruccion.tipo.getTipo());
                 return result;
@@ -74,6 +77,14 @@ public class Match extends Instruccion{
             
             if(result instanceof Errores){
                 return result;
+            }
+            if( result instanceof Return posible){
+                if( posible.expresion == null ){
+                    return result;
+                }
+                var res = ((Return) result).interpretar(arbol, tabla);
+                this.tipo.setTipo(instruccion.tipo.getTipo());
+                return res;
             }
         }
         return null;

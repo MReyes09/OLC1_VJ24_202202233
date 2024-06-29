@@ -63,7 +63,10 @@ public class If extends Instruccion{
                 if (i instanceof Break) {
                     return i;
                 }
-                if( i instanceof Return ){
+                if( i instanceof Return posible){
+                    if( posible.expresion == null ){
+                        return i;
+                    }
                     var resultado = i.interpretar(arbol, newTabla);
                     this.tipo.setTipo(i.tipo.getTipo());
                     return resultado;
@@ -82,7 +85,10 @@ public class If extends Instruccion{
                     return resultado;
                 }
                 
-                if( resultado instanceof Return ){
+                if( resultado instanceof Return posible){
+                    if( posible.expresion == null ){
+                        return resultado;
+                    }
                     var res = ((Return) resultado).interpretar(arbol, newTabla);
                     this.tipo.setTipo(i.tipo.getTipo());
                     return res;
@@ -105,8 +111,12 @@ public class If extends Instruccion{
                     if (instruccion instanceof Continue) {
                         return instruccion;
                     }
-                    if( instruccion instanceof Return ){
+                    if( instruccion instanceof Return posible){
+                        if( posible.expresion == null ){
+                            return instruccion;
+                        }
                         var res = instruccion.interpretar(arbol, newTabla);
+                        this.tipo.setTipo(instruccion.tipo.getTipo());
                         return res;
                     }
                     
@@ -120,8 +130,12 @@ public class If extends Instruccion{
                     if (resultado instanceof Continue) {
                         return resultado;
                     }
-                    if( resultado instanceof Return ){
+                    if( resultado instanceof Return posible){
+                        if( posible.expresion == null ){
+                            return resultado;
+                        }
                         var res = ((Return) resultado).interpretar(arbol, newTabla);
+                        this.tipo.setTipo(instruccion.tipo.getTipo());
                         return res;
                     }
                 }
