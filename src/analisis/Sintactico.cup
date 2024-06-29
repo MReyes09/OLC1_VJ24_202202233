@@ -208,6 +208,20 @@ INSTANCIA_STRUCT ::= MUTABILIDAD:a ID_VARIABLE:b DOSPUNTOS ID_VARIABLE:c IGUAL L
         }
         RESULT = new Instancia_Struct(b, c, variables_Struct, valores_Struct, a, aleft, aright);
     :}
+    | LLAV1 VALORES_STRUCT:a LLAV2
+    {:
+        ArrayList<Object> lista_Separar = a;
+        LinkedList<String> variables_Struct = new LinkedList<>();
+        LinkedList<Instruccion> valores_Struct = new LinkedList<>();
+        for( int i = 0; i < lista_Separar.size(); i++ ){
+            if( i % 2 == 0 ){
+                variables_Struct.add( lista_Separar.get(i).toString() );
+            }else{
+                valores_Struct.add( (Instruccion) lista_Separar.get(i) );
+            }
+        }
+        RESULT = new Instancia_Struct(null, null, variables_Struct, valores_Struct, true, aleft, aright);
+    :}
 ;
 
 VALORES_STRUCT ::= VALORES_STRUCT:a COMA ID_VARIABLE:b DOSPUNTOS EXPRESION:c        {: RESULT = a; RESULT.add(b); RESULT.add(c); :}
@@ -391,6 +405,7 @@ EXPRESION ::= MENOS EXPRESION:a                     {: RESULT = new Aritmeticas(
             | TRUE:a                                {: RESULT = new Nativo(Boolean.parseBoolean(a), new Tipo(tipoDato.BOOLEANO), aleft, aright); :}
             | FALSE:a                               {: RESULT = new Nativo(Boolean.parseBoolean(a), new Tipo(tipoDato.BOOLEANO), aleft, aright); :}
             | CHAR:a                                {: RESULT = new Nativo(a.charAt(1), new Tipo(tipoDato.CARACTER), aleft, aright); :}
+            | INSTANCIA_STRUCT:a                    {: RESULT = a; :}
             | ID_VARIABLE:a PAR1 PARAMSCALL:b PAR2  {: RESULT = new Llamada(a, b, aleft, aright); :}
             | ID_VARIABLE:a PAR1 PAR2 FINCADENA     {: RESULT = new Llamada(a, new LinkedList<Instruccion>(), aleft, aright); :}
             | ID_VARIABLE:a                         {: RESULT = new AccesoVar(a, aleft, aright); :}

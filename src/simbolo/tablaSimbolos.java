@@ -56,6 +56,15 @@ public class tablaSimbolos {
         
     }
     
+    public boolean removeVariable(Simbolo simbolo) {
+        if (this.tablaActual.containsKey(simbolo.getId().toLowerCase())) {
+            this.tablaActual.remove(simbolo.getId().toLowerCase());
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     public Simbolo getVariable(String id) {
         
         for (tablaSimbolos i = this; i != null; i = i.getTablaAnterior()) {
