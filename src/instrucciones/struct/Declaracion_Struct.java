@@ -59,7 +59,7 @@ public class Declaracion_Struct extends Instruccion implements Cloneable{
             if(!creacion) {
                 return new Errores("SEMANTICO", "Variable ya existente", this.linea, this.columna);
             }
-            
+            view.Ventana_Base.tabla_Simbolos.add(s);
         }else{
             return new Errores("SEMANTICO", "El Struct: " + this.id + " se ha declarado sin variables", this.linea, this.columna);
         }

@@ -3,6 +3,7 @@ package instrucciones.subrutina;
 
 import abstracto.Instruccion;
 import excepciones.Errores;
+import instrucciones.Declaracion;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -15,6 +16,7 @@ public class Funcion extends Instruccion{
     public String id;
     public LinkedList<HashMap> parametros;
     public LinkedList<Instruccion> instrucciones;
+    private static int contador;
 
     public Funcion(String id, LinkedList<HashMap> parametros, LinkedList<Instruccion> instrucciones, Tipo tipo, int linea, int columna) {
         super(tipo, linea, columna);
@@ -26,11 +28,14 @@ public class Funcion extends Instruccion{
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
         
+        contador++;
         
         for(var instruccion : this.instrucciones) {
-            
             if( instruccion == null ) {
                 return null;
+            }
+            if( instruccion instanceof Declaracion ){
+                ((Declaracion)instruccion).setBloque("Funcion"+ contador);
             }
             
             var resultado = instruccion.interpretar(arbol, tabla);

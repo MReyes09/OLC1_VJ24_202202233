@@ -20,7 +20,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Map;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -349,7 +352,6 @@ public class Ventana_Base extends javax.swing.JFrame {
             }
             
             txt_Con.setText(ast.getConsola()+ "\n");
-            System.out.println("A ver");
             for (var res : lista) {
                 String error = "Error tipo: " + ((Errores) res).getTipo() + " " + ((Errores) res).getDescripcion()
                         + " fila: " +((Errores) res).getLinea()+ " columna: "+ ((Errores) res).getColumna();
@@ -397,6 +399,60 @@ public class Ventana_Base extends javax.swing.JFrame {
         int contador = 1;
 
         for (var simbol : tabla_Simbolos) {
+            if( simbol.getValor() instanceof tablaSimbolos ){
+                String toString_Struct = simbol.getTip() + " { ";
+
+                HashMap<String, Object> mi_Tablita = ((tablaSimbolos)simbol.getValor()).getTablaActual();
+                StringBuilder sb = new StringBuilder(toString_Struct);
+
+                // Usar un iterator para recorrer el HashMap
+                Iterator<Map.Entry<String, Object>> iterator = mi_Tablita.entrySet().iterator();
+                while (iterator.hasNext()) {
+                    Map.Entry<String, Object> entry = iterator.next();
+                    sb.append(entry.getKey()).append(": ");
+                    Simbolo valor_Struct = (Simbolo) entry.getValue();
+                    if (valor_Struct.getValor() instanceof tablaSimbolos) {
+                        sb.append("{ ");
+                        tablaSimbolos tabla_Valor = (tablaSimbolos) valor_Struct.getValor();
+
+                        HashMap<String, Object> mi_Tablita2 = tabla_Valor.getTablaActual();
+
+                        // Usar otro iterator para recorrer el segundo HashMap
+                        Iterator<Map.Entry<String, Object>> iterator2 = mi_Tablita2.entrySet().iterator();
+                        while (iterator2.hasNext()) {
+                            Map.Entry<String, Object> entry2 = iterator2.next();
+                            Simbolo valor_Struct2 = (Simbolo) entry2.getValue();
+                            sb.append(entry2.getKey()).append(": ").append(valor_Struct2.getValor().toString());
+                            if (iterator2.hasNext()) {
+                                sb.append(", ");
+                            }
+                        }
+                        sb.append("}");
+                    } else {
+                        sb.append(valor_Struct.getValor().toString());
+                    }
+                    if (iterator.hasNext()) {
+                        sb.append(", ");
+                    }
+                }
+                sb.append(" }");
+
+                toString_Struct = sb.toString();
+                // Agregar una fila a la tabla con los valores del símbolo
+                html_Report.append("<tr>");
+                html_Report.append("<td>").append(contador).append("</td>");
+                html_Report.append("<td>").append(simbol.getId()).append("</td>");
+                html_Report.append("<td>").append(simbol.getTip()).append("</td>");
+                html_Report.append("<td>").append(simbol.getEntorno()).append("</td>");
+                html_Report.append("<td>").append(simbol.getTipo().getTipo().toString()).append("</td>");
+                html_Report.append("<td>").append(toString_Struct).append("</td>");
+                html_Report.append("<td>").append(simbol.getFila()).append("</td>");
+                html_Report.append("<td>").append(simbol.getColumna()).append("</td>");
+                html_Report.append("</tr>");
+
+                contador++;
+                continue;
+            }
 
             // Agregar una fila a la tabla con los valores del símbolo
             html_Report.append("<tr>");
