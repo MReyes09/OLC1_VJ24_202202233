@@ -15,7 +15,6 @@ No Terminales = {<INICIO>, <INSTRUCCIONES>, <CASES>, <CASE>, <INSTRUCCION>,
                  <CFOR>, <ACTUALIZA_FOR>, <CWHILE>, <CDO_WHILE>, <SALIDA>,
                  <CONTINIU>, <TIPOS>, <MUTABILIDAD>, <EXPRESION>}
 
-
 simbolo inicial = <INICIO>
 
 <INICIO> ::= <INSTRUCCIONES>
@@ -108,12 +107,3 @@ simbolo inicial = <INICIO>
               | FALSE
               | CHAR
               | ID_VARIABLE
-
-
-
-
-println("HOLA");
-
-INSTRUCCION INSTRUCCION 
-FUNCION
-        "HOLA"
